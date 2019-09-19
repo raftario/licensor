@@ -1,0 +1,29 @@
+[package]
+name = "licensor"
+version = "1.0.0"
+authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
+license = "Unlicense"
+description = "Write a license to standard output given its SPDX ID"
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+chrono = "0.4.9"
+lazy_static = "1.4.0"
+
+[build-dependencies]
+reqwest = "0.9.20"
+serde_json = "1.0.40"
+[build-dependencies.serde]
+version = "1.0.101"
+features = ["derive"]
+
+[dev-dependencies]
+[dev-dependencies.cargo-husky]
+version = "1.4.0"
+default-features = false
+features = [
+    "precommit-hook",
+    "run-cargo-clippy",
+    "run-cargo-fmt",
+]

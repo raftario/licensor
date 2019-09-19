@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "SPDX ID for the license"
+      },
+      "source": {
+        "type": "string",
+        "enum": [
+          "url",
+          "github"
+        ],
+        "description": "Type of the source for the license"
+      },
+      "value": {
+        "type": "string",
+        "description": "Source of the license"
+      },
+      "replace": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "string",
+            "description": "Copyright year"
+          },
+          "name": {
+            "type": "string",
+            "description": "Copyright holder"
+          }
+        },
+        "description": "Keyword that need to be replaced in the license"
+      }
+    }
+  },
+  "description": "License descriptor",
+  "required": [
+    "id",
+    "type",
+    "value"
+  ]
+}

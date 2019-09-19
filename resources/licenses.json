@@ -1,0 +1,74 @@
+[
+  {
+    "id": "AGPL-3.0",
+    "source": "url",
+    "value": "https://www.gnu.org/licenses/agpl-3.0.txt"
+  },
+  {
+    "id": "Apache-2.0",
+    "source": "url",
+    "value": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+  },
+  {
+    "id": "BSD-2-Clause",
+    "source": "github",
+    "value": "bsd-2-clause",
+    "replace": {
+      "year": "[year]",
+      "name": "[fullname]"
+    }
+  },
+  {
+    "id": "BSD-3-Clause",
+    "source": "github",
+    "value": "bsd-3-clause",
+    "replace": {
+      "year": "[year]",
+      "name": "[fullname]"
+    }
+  },
+  {
+    "id": "EPL-2.0",
+    "source": "url",
+    "value": "https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt"
+  },
+  {
+    "id": "GPL-2.0",
+    "source": "url",
+    "value": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt"
+  },
+  {
+    "id": "GPL-3.0",
+    "source": "url",
+    "value": "https://www.gnu.org/licenses/gpl-3.0.txt"
+  },
+  {
+    "id": "LGPL-2.1",
+    "source": "url",
+    "value": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt"
+  },
+  {
+    "id": "LGPL-3.0",
+    "source": "url",
+    "value": "https://www.gnu.org/licenses/lgpl-3.0.txt"
+  },
+  {
+    "id": "MIT",
+    "source": "github",
+    "value": "mit",
+    "replace": {
+      "year": "[year]",
+      "name": "[fullname]"
+    }
+  },
+  {
+    "id": "MPL-2.0",
+    "source": "url",
+    "value": "https://www.mozilla.org/media/MPL/2.0/index.815ca599c9df.txt"
+  },
+  {
+    "id": "Unlicense",
+    "source": "url",
+    "value": "https://unlicense.org/UNLICENSE"
+  }
+]
