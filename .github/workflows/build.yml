@@ -13,28 +13,17 @@ jobs:
     - uses: raftario/setup-rust-action@v1
       with:
         cache: false
-    - name: Restore build artifacts
-      uses: actions/download-artifact@v1
-      with:
-        name: target
-        path: target
-      continue-on-error: true
     - name: Build project
-      run: cargo build
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: target
-        path: target
+      run: cargo build --release
     - name: Archive binary (Unix)
       if: matrix.os != 'windows-latest'
       uses: actions/upload-artifact@v1
       with:
         name: licensor
-        path: target/debug/licensor
+        path: target/release/licensor
     - name: Archive binary (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v1
       with:
         name: licensor.exe
-        path: target/debug/licensor.exe
+        path: target/release/licensor.exe
