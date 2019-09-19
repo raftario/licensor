@@ -14,6 +14,8 @@ jobs:
       with:
         cache: false
     - name: Build project
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: cargo build --release
     - name: Archive binary (Unix)
       if: matrix.os != 'windows-latest'

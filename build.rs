@@ -30,13 +30,17 @@ struct License {
     replace: Option<LicenseReplace>,
 }
 
-fn fetch_url_to_string(url: &str, client: &Client) -> String {
-    client
-        .get(url)
-        .send()
-        .expect("Can't fetch url")
-        .text()
-        .expect("Can't convert fetched contents to string")
+fn fetch_url_to_string(url: &str, client: &Client, token: &Option<String>) -> String {
+    let request = client.get(url);
+    if let Some(token) = token {
+        request.header("Authorization", format!("token {}", token))
+    } else {
+        request
+    }
+    .send()
+    .expect("Can't fetch url")
+    .text()
+    .expect("Can't convert fetched contents to string")
 }
 
 fn main() {
@@ -49,6 +53,11 @@ fn main() {
         serde_json::from_str(&licenses_file_contents).expect("Can't deserialized licenses.json");
 
     let http_client = Client::new();
+    let gh_token = if let Ok(token) = env::var("GITHUB_TOKEN") {
+        Some(token)
+    } else {
+        None
+    };
 
     for license in licenses {
         eprintln!("Processing info for {}...", &license.id);
@@ -56,13 +65,14 @@ fn main() {
         let mut contents = String::new();
         match license.source {
             LicenseSource::Url => {
-                let fetched_contents = fetch_url_to_string(&license.value, &http_client);
+                let fetched_contents = fetch_url_to_string(&license.value, &http_client, &None);
                 contents.push_str(&fetched_contents);
             }
             LicenseSource::Github => {
                 let fetched_contents = fetch_url_to_string(
                     &format!("https://api.github.com/licenses/{}", &license.value),
                     &http_client,
+                    &gh_token,
                 );
                 let fetched_json: Value = serde_json::from_str(&fetched_contents)
                     .expect("Can't deserialized fetched GitHub license info");
@@ -92,7 +102,7 @@ fn main() {
 
     module_contents.push_str(" hm };");
 
-    let out_dir = env::var("OUT_DIR").unwrap();
+    let out_dir = env::var("OUT_DIR").expect("OUT_DIR is not defined");
     let dest_path = Path::new(&out_dir).join("licenses.rs");
     let mut out_file = File::create(&dest_path).expect("Can't create output file");
     out_file
