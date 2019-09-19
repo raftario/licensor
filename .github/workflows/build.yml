@@ -29,12 +29,12 @@ jobs:
     - name: Archive binary (Unix)
       if: matrix.os != windows-latest
       uses: actions/upload-artifact@v1
-        with:
-          name: licensor
-          path: target/licensor
+      with:
+        name: licensor
+        path: target/licensor
     - name: Archive binary (Windows)
       if: matrix.os == windows-latest
       uses: actions/upload-artifact@v1
-        with:
-          name: licensor.exe
-          path: target/licensor.exe
+      with:
+        name: licensor.exe
+        path: target/licensor.exe
