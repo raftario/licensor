@@ -18,6 +18,7 @@ jobs:
       with:
         name: target
         path: target
+      continue-on-error: true
     - name: Build project
       run: cargo build
     - name: Archive build artifacts
