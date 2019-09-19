@@ -17,8 +17,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: cargo build --release
-    - name: Archive binary (Unix)
-      if: matrix.os != 'windows-latest'
+    - name: Archive binary (Linux)
+      if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v1
       with:
         name: licensor
@@ -29,3 +29,9 @@ jobs:
       with:
         name: licensor.exe
         path: target/release/licensor.exe
+    - name: Archive binary (macOS)
+      if: matrix.os == 'macOS-latest'
+      uses: actions/upload-artifact@v1
+      with:
+        name: licensor-macos
+        path: target/release/licensor
