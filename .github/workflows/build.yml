@@ -13,5 +13,15 @@ jobs:
     - uses: raftario/setup-rust-action@v1
       with:
         cache: false
+    - name: Restore build artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: target
+          path: target
     - name: Build project
       run: cargo build
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: target
+        path: target
