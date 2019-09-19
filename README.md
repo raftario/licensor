@@ -43,4 +43,4 @@ This makes the binary really light, however, the main downside is that additiona
 
 ## Licensing
 
-`licensor` is licensed under the [Unlicense](./LICENSE).
+`licensor` is licensed under the [MIT License](./LICENSE).
