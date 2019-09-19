@@ -1,0 +1,17 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: raftario/setup-rust-action@v1
+      with:
+        cache: false
+    - name: Build project
+      run: cargo build
