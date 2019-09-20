@@ -12,13 +12,6 @@ use std::io::Write;
 use std::path::Path;
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all(deserialize = "camelCase"))]
-enum LicenseSource {
-    Url,
-    Github,
-}
-
-#[derive(Debug, Deserialize)]
 struct LicenseReplace {
     year: Option<String>,
     name: Option<String>,
@@ -27,9 +20,8 @@ struct LicenseReplace {
 #[derive(Debug, Deserialize)]
 struct License {
     id: String,
-    source: LicenseSource,
-    value: String,
     replace: Option<LicenseReplace>,
+    copyright: Option<Vec<usize>>,
 }
 
 fn fetch_url_to_string(url: &str, client: &Client, token: &Option<String>) -> String {
