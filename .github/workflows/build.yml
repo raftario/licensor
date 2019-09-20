@@ -21,17 +21,17 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v1
       with:
-        name: licensor
+        name: Linux
         path: target/release/licensor
     - name: Archive binary (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v1
       with:
-        name: licensor.exe
+        name: Windows
         path: target/release/licensor.exe
     - name: Archive binary (macOS)
       if: matrix.os == 'macOS-latest'
       uses: actions/upload-artifact@v1
       with:
-        name: licensor-macos
+        name: macOS
         path: target/release/licensor
