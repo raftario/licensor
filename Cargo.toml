@@ -1,11 +1,22 @@
 [package]
 name = "licensor"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
-license = "Unlicense"
+license = "MIT"
 description = "Write a license to standard output given its SPDX ID"
+homepage = "https://github.com/raftario/licensor"
+repository = "https://github.com/raftario/licensor.git"
+readme = "README.md"
+keywords = ["license", "cli"]
+categories = ["command-line-utilities"]
 edition = "2018"
 build = "build.rs"
+exclude = [
+    "/target",
+    "**/*.rs.bk",
+    ".idea/",
+    ".github/",
+]
 
 [dependencies]
 chrono = "0.4.9"
