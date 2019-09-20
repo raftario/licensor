@@ -14,6 +14,10 @@ Write a license to standard output given its SPDX ID. A name for the copyright h
 
 I just got tired of losing time looking for license files for my new projects.
 
+## Installation
+
+Just [grab the latest release](https://github.com/raftario/licensor/releases/latest) for your OS. If you have the Rust toolchain install, you can alternatively install by running `cargo install licensor`.
+
 ## Available licenses
 
 * AGPL-3.0
