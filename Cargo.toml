@@ -1,6 +1,6 @@
 [package]
 name = "licensor"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 license = "MIT"
 description = "Write a license to standard output given its SPDX ID"
