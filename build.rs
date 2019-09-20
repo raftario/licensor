@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate serde;
 
+use flate2::Compression;
+use flate2::write::GzEncoder;
 use reqwest::Client;
 use serde_json::Value;
 use std::env;
@@ -43,9 +45,15 @@ fn fetch_url_to_string(url: &str, client: &Client, token: &Option<String>) -> St
     .expect("Can't convert fetched contents to string")
 }
 
+fn gz_encode_str(src: &str, level: Compression) -> Vec<u8> {
+    let mut encoder = GzEncoder::new(Vec::new(), level);
+    encoder.write_all(src.as_bytes()).expect("Can't write to gzip encoder");
+    encoder.finish().expect("Can't finish gzip encoding")
+}
+
 fn main() {
     let mut module_contents =
-        "{ let mut hm: HashMap<&'static str, &'static str> = HashMap::new(); ".to_owned();
+        "{ let mut hm: HashMap<&'static str, &'static [u8]> = HashMap::new(); ".to_owned();
 
     let licenses_file_contents =
         fs::read_to_string("./resources/licenses.json").expect("Can't read licenses.json");
@@ -96,7 +104,8 @@ fn main() {
             contents.push('\n');
         }
 
-        let to_insert = format!("hm.insert({:?}, {:?});", &license.id, &contents);
+        let gz_contents = gz_encode_str(&contents, Compression::best());
+        let to_insert = format!("hm.insert({:?}, &{:?});", &license.id, gz_contents.as_slice());
         module_contents.push_str(&to_insert);
     }
 

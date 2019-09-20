@@ -2,8 +2,11 @@
 extern crate lazy_static;
 
 use chrono::{Datelike, Utc};
+use flate2::read::GzDecoder;
 use std::collections::HashMap;
 use std::env;
+use std::io;
+use std::io::Read;
 use std::process;
 
 #[derive(Debug)]
@@ -16,8 +19,15 @@ struct LaunchArgs {
 
 lazy_static! {
     static ref EMPTY_STRING: String = String::new();
-    static ref LICENSES: HashMap<&'static str, &'static str> =
+    static ref LICENSES: HashMap<&'static str, &'static [u8]> =
         include!(concat!(env!("OUT_DIR"), "/licenses.rs"));
+}
+
+fn gz_decode_bytes(src: &[u8]) -> io::Result<String> {
+    let mut decoder = GzDecoder::new(src);
+    let mut result = String::new();
+    decoder.read_to_string(&mut result)?;
+    Ok(result)
 }
 
 fn main() {
@@ -58,17 +68,21 @@ fn main() {
             println!("{}", key);
         }
     } else if let Some(id) = parsed_args.id {
-        if let Some(contents) = LICENSES.get(id.as_str()) {
-            if let Some(name) = parsed_args.name {
-                print!(
-                    "{}",
-                    &contents
-                        .to_owned()
-                        .replace("{{ name }}", &name)
-                        .replace("{{ year }}", &Utc::today().year().to_string())
-                )
+        if let Some(gz_contents) = LICENSES.get(id.as_str()) {
+            if let Ok(contents) = gz_decode_bytes(gz_contents) {
+                if let Some(name) = parsed_args.name {
+                    print!(
+                        "{}",
+                        &contents
+                            .replace("{{ name }}", &name)
+                            .replace("{{ year }}", &Utc::today().year().to_string())
+                    )
+                } else {
+                    print!("{}", &contents);
+                }
             } else {
-                print!("{}", contents);
+                eprintln!("Couldn't decode specified license. Please open an issue at <https://github.com/raftario/licensor>");
+                process::exit(1);
             }
         } else {
             eprintln!("Invalid license ID.");
