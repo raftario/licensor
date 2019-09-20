@@ -6,7 +6,7 @@
     "properties": {
       "id": {
         "type": "string",
-        "description": "SPDX ID for the license"
+        "description": "SPDX ID of the license"
       },
       "replace": {
         "type": "object",

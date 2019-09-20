@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "SPDX ID of the exception"
+      }
+    },
+    "description": "Exception descriptor",
+    "required": [
+      "id"
+    ]
+  }
+}
