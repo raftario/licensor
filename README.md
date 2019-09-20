@@ -1,5 +1,7 @@
 # licensor
 
+![Preview](./resources/preview.svg)
+
 write licenses to stdout
 
 [![GitHub Actions](https://github.com/raftario/licensor/workflows/Build/badge.svg)](https://github.com/raftario/licensor/actions?workflowID=Build)
