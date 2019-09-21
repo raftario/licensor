@@ -1,3 +1,111 @@
+use flate2::read::GzDecoder;
+use licensor_common::{License, Exception};
+use sha3::{Digest, Sha3_256};
+use std::io::{Read, Write};
+use std::fs::File;
+use std::fmt::Debug;
+use std::path::{Path, PathBuf, Component};
+use std::{env, fs, io, process};
+use tar::Archive;
+use std::ffi::OsStr;
+
+static LLD_ARCHIVE_URL: &str = "https://github.com/spdx/license-list-data/archive/v3.6.tar.gz";
+static LLD_ARCHIVE_HASH: &[u8] = &[
+    145, 22, 173, 180, 54, 59, 55, 113, 254, 131, 175, 24, 225, 159, 97, 56, 149, 179, 117, 193,
+    32, 251, 216, 100, 23, 102, 251, 47, 57, 96, 160, 121,
+];
+
+fn hash_file<P: AsRef<Path> + Debug>(src: P) -> Vec<u8> {
+    eprintln!("Hashing {:?}...", src);
+    let mut file = File::open(src).expect("Can't read file for hashing");
+    let mut hasher = Sha3_256::new();
+    io::copy(&mut file, &mut hasher).expect("Can't hash file");
+    hasher.result().to_vec()
+}
+
+fn download_file<P: AsRef<Path> + Debug>(url: &str, dest: P) {
+    eprintln!("Downloading {} to {:?}...", url, dest);
+    let mut file = File::create(dest).expect("Can't create destination file");
+    let mut response = reqwest::get(url).expect("Can't download file");
+    io::copy(&mut response, &mut file).expect("Can't write response to file");
+}
+
+fn decode_gz_file<P: AsRef<Path> + Debug, W: Write>(src: P, dest: &mut W) {
+    eprintln!("Decoding {:?}...", src);
+    let mut file = File::open(src).expect("Can't read file for decoding");
+    let mut decoder = GzDecoder::new(file);
+    io::copy(&mut decoder, dest).expect("Can't decode file");
+}
+
 fn main() {
-    println!("Hello, world!");
+    let cargo_manifest_dir =
+        env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not defined");
+    let mut resources_path = PathBuf::from(cargo_manifest_dir)
+        .canonicalize()
+        .expect("Invalid Cargo manifest directory");
+    resources_path.pop();
+    resources_path.push("resources");
+
+    let mut lld_archive_path = resources_path.clone();
+    lld_archive_path.push("license-list-data-3.6.tar.gz");
+    let mut lld_archive_ok = false;
+    if lld_archive_path.is_file() {
+        eprintln!("Found license list archive. Checking hash...");
+        let hash = hash_file(&lld_archive_path);
+        if hash.as_slice() == LLD_ARCHIVE_HASH {
+            lld_archive_ok = true;
+        } else {
+            eprintln!("License list archive hash doesn't match expected one.");
+        }
+    }
+
+    if !lld_archive_ok {
+        download_file(LLD_ARCHIVE_URL, &lld_archive_path);
+        let hash = hash_file(&lld_archive_path);
+        if hash.as_slice() != LLD_ARCHIVE_HASH {
+            eprintln!("Downloaded license list archive hash doesn't match expected one. Please try again and report the issue if it reappears.");
+            process::exit(1);
+        }
+    }
+
+    let mut decoded_archive: Vec<u8> = Vec::new();
+    decode_gz_file(&lld_archive_path, &mut decoded_archive);
+
+    let mut licenses_json_path = resources_path.clone();
+    licenses_json_path.push("licenses.json");
+    let mut licenses_json = File::open(&licenses_json_path).expect("Can't read licenses.json");
+    let licenses: Vec<License> = serde_json::from_reader(licenses_json).expect("Can't parse licenses.json");
+
+    let mut exceptions_json_path = resources_path.clone();
+    exceptions_json_path.push("exceptions.json");
+    let mut exceptions_json = File::open(&exceptions_json_path).expect("Can't read exceptions.json");
+    let exceptions: Vec<Exception> = serde_json::from_reader(exceptions_json).expect("Can't parse exceptions.json");
+
+    println!("{:#?}", &licenses);
+    println!("{:#?}", &exceptions);
+
+    let mut lld_archive = Archive::new(decoded_archive.as_slice());
+    let mut licenses_path = resources_path.clone();
+    licenses_path.push("licenses");
+    let mut exceptions_path = resources_path.clone();
+    exceptions_path.push("exceptions");
+    for file in lld_archive.entries().expect("Can't read archive") {
+        let mut file = file.expect("Can't read archive file");
+
+        let filepath = file.header().path().expect("Can't read path from archive file").to_path_buf();
+        let components: Vec<Component> = filepath.components().collect();
+        if components.len() == 3 && components[1].as_os_str() == OsStr::new("text") {
+            let filename = components[2].as_os_str().to_str().expect("Can't convert archive file filename to string");
+
+            for license in &licenses {
+                if &format!("{}.txt", license.id) == filename || &format!("deprecated_{}.txt", license.id) == filename {
+                    println!("Parsing license {}", license.id);
+                    let mut license_path = licenses_path.clone();
+                    license_path.push(format!("{}.txt", license.id));
+                    let mut license_file = File::create(&license_path).expect("Can't create license file");
+                    io::copy(&mut file, &mut license_file).expect("Can't write license to file");
+                }
+            }
+        }
+    }
 }
