@@ -1,0 +1,12 @@
+[package]
+name = "licensor_codegen"
+version = "0.1.0"
+authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+phf_codegen = "0.7.24"
+serde_json = "1.0.40"
+[dependencies.licensor_common]
+path = "../licensor_common"
+features = ["deserialize"]
