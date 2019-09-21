@@ -10,12 +10,6 @@ readme = "README.md"
 keywords = ["license", "cli"]
 categories = ["command-line-utilities"]
 edition = "2018"
-exclude = [
-    "**/target/",
-    "**/*.rs.bk",
-    ".idea/",
-    ".github/",
-]
 
 [workspace]
 members = [

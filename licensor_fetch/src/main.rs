@@ -1,13 +1,15 @@
 use flate2::read::GzDecoder;
-use licensor_common::{License, Exception};
+use flate2::write::GzEncoder;
+use flate2::Compression;
+use licensor_common::{Exception, License};
 use sha3::{Digest, Sha3_256};
-use std::io::{Read, Write};
-use std::fs::File;
-use std::fmt::Debug;
-use std::path::{Path, PathBuf, Component};
-use std::{env, fs, io, process};
-use tar::Archive;
 use std::ffi::OsStr;
+use std::fmt::Debug;
+use std::fs::File;
+use std::io::Write;
+use std::path::{Component, Path, PathBuf};
+use std::{env, io, process};
+use tar::Archive;
 
 static LLD_ARCHIVE_URL: &str = "https://github.com/spdx/license-list-data/archive/v3.6.tar.gz";
 static LLD_ARCHIVE_HASH: &[u8] = &[
@@ -32,9 +34,16 @@ fn download_file<P: AsRef<Path> + Debug>(url: &str, dest: P) {
 
 fn decode_gz_file<P: AsRef<Path> + Debug, W: Write>(src: P, dest: &mut W) {
     eprintln!("Decoding {:?}...", src);
-    let mut file = File::open(src).expect("Can't read file for decoding");
+    let file = File::open(src).expect("Can't read file for decoding");
     let mut decoder = GzDecoder::new(file);
     io::copy(&mut decoder, dest).expect("Can't decode file");
+}
+
+fn encode_file_gz<P: AsRef<Path> + Debug, W: Write>(src: P, dest: &mut W, level: Compression) {
+    eprintln!("Encoding {:?}...", src);
+    let mut file = File::open(src).expect("Can't read file for encoding");
+    let mut encoder = GzEncoder::new(dest, level);
+    io::copy(&mut file, &mut encoder).expect("Can't encode file");
 }
 
 fn main() {
@@ -73,16 +82,15 @@ fn main() {
 
     let mut licenses_json_path = resources_path.clone();
     licenses_json_path.push("licenses.json");
-    let mut licenses_json = File::open(&licenses_json_path).expect("Can't read licenses.json");
-    let licenses: Vec<License> = serde_json::from_reader(licenses_json).expect("Can't parse licenses.json");
+    let licenses_json = File::open(&licenses_json_path).expect("Can't read licenses.json");
+    let licenses: Vec<License> =
+        serde_json::from_reader(licenses_json).expect("Can't parse licenses.json");
 
     let mut exceptions_json_path = resources_path.clone();
     exceptions_json_path.push("exceptions.json");
-    let mut exceptions_json = File::open(&exceptions_json_path).expect("Can't read exceptions.json");
-    let exceptions: Vec<Exception> = serde_json::from_reader(exceptions_json).expect("Can't parse exceptions.json");
-
-    println!("{:#?}", &licenses);
-    println!("{:#?}", &exceptions);
+    let exceptions_json = File::open(&exceptions_json_path).expect("Can't read exceptions.json");
+    let exceptions: Vec<Exception> =
+        serde_json::from_reader(exceptions_json).expect("Can't parse exceptions.json");
 
     let mut lld_archive = Archive::new(decoded_archive.as_slice());
     let mut licenses_path = resources_path.clone();
@@ -92,18 +100,64 @@ fn main() {
     for file in lld_archive.entries().expect("Can't read archive") {
         let mut file = file.expect("Can't read archive file");
 
-        let filepath = file.header().path().expect("Can't read path from archive file").to_path_buf();
+        let filepath = file
+            .header()
+            .path()
+            .expect("Can't read path from archive file")
+            .to_path_buf();
         let components: Vec<Component> = filepath.components().collect();
         if components.len() == 3 && components[1].as_os_str() == OsStr::new("text") {
-            let filename = components[2].as_os_str().to_str().expect("Can't convert archive file filename to string");
+            let filename = components[2]
+                .as_os_str()
+                .to_str()
+                .expect("Can't convert archive file filename to string");
 
             for license in &licenses {
-                if &format!("{}.txt", license.id) == filename || &format!("deprecated_{}.txt", license.id) == filename {
-                    println!("Parsing license {}", license.id);
+                if &format!("{}.txt", license.id) == filename
+                    || &format!("deprecated_{}.txt", license.id) == filename
+                {
+                    eprintln!("Parsing license {}", license.id);
+
                     let mut license_path = licenses_path.clone();
                     license_path.push(format!("{}.txt", license.id));
-                    let mut license_file = File::create(&license_path).expect("Can't create license file");
+                    let mut license_file =
+                        File::create(&license_path).expect("Can't create license file");
                     io::copy(&mut file, &mut license_file).expect("Can't write license to file");
+
+                    let mut encoded_license_path = licenses_path.clone();
+                    encoded_license_path.push(format!("{}.txt.gz", license.id));
+                    let mut encoded_license_file = File::create(&encoded_license_path)
+                        .expect("Can't create encoded license file");
+                    encode_file_gz(
+                        &license_path,
+                        &mut encoded_license_file,
+                        Compression::best(),
+                    );
+                }
+            }
+
+            for exception in &exceptions {
+                if &format!("{}.txt", exception.id) == filename
+                    || &format!("deprecated_{}.txt", exception.id) == filename
+                {
+                    eprintln!("Parsing exception {}", exception.id);
+
+                    let mut exception_path = exceptions_path.clone();
+                    exception_path.push(format!("{}.txt", exception.id));
+                    let mut exception_file =
+                        File::create(&exception_path).expect("Can't create exception file");
+                    io::copy(&mut file, &mut exception_file)
+                        .expect("Can't write exception to file");
+
+                    let mut encoded_exception_path = exceptions_path.clone();
+                    encoded_exception_path.push(format!("{}.txt.gz", exception.id));
+                    let mut encoded_exception_file = File::create(&encoded_exception_path)
+                        .expect("Can't create encoded exception file");
+                    encode_file_gz(
+                        &exception_path,
+                        &mut encoded_exception_file,
+                        Compression::best(),
+                    );
                 }
             }
         }
