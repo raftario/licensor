@@ -29,13 +29,21 @@ pub struct Exception {
 }
 
 #[cfg(feature = "deserialize")]
-pub fn get_resources_path() -> PathBuf {
+pub fn get_root_path() -> PathBuf {
     let cargo_manifest_dir =
         env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not defined");
-    let mut resources_path = PathBuf::from(cargo_manifest_dir)
+    let mut root_path = PathBuf::from(cargo_manifest_dir)
         .canonicalize()
         .expect("Invalid Cargo manifest directory");
-    resources_path.pop();
+    if root_path.pop() != true {
+        panic!("Can't find root path.");
+    }
+    root_path
+}
+
+#[cfg(feature = "deserialize")]
+pub fn get_resources_path() -> PathBuf {
+    let mut resources_path = get_root_path();
     resources_path.push("resources");
     resources_path
 }

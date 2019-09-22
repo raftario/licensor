@@ -7,7 +7,7 @@ use std::fmt::Debug;
 use std::fs::File;
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
-use std::{env, fs, io, process};
+use std::{fs, io, process};
 use tar::Archive;
 
 static LLD_ARCHIVE_URL: &str = "https://github.com/spdx/license-list-data/archive/v3.6.tar.gz";
@@ -171,8 +171,7 @@ fn main() {
 
     eprintln!("Writing list file...");
 
-    let mut list_path = resources_path.clone();
-    list_path.pop();
+    let mut list_path = licensor_common::get_root_path();
     list_path.push("LIST.md");
 
     let mut list_contents = "# Available licenses and exceptions\n\n[//]: # (This is an automatically generated file, do not edit it.)\n\n".to_owned();
