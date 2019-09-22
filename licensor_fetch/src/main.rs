@@ -8,7 +8,7 @@ use std::fmt::Debug;
 use std::fs::File;
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
-use std::{env, io, process};
+use std::{env, fs, io, process};
 use tar::Archive;
 
 static LLD_ARCHIVE_URL: &str = "https://github.com/spdx/license-list-data/archive/v3.6.tar.gz";
@@ -178,4 +178,22 @@ fn main() {
         eprintln!("Some exceptions couldn't be parsed. Check for error in exceptions.json.");
         process::exit(1);
     }
+
+    eprintln!("Writing list file...");
+
+    let mut list_path = resources_path.clone();
+    list_path.pop();
+    list_path.push("LIST.md");
+
+    let mut list_contents = "# Available licenses and exceptions\n\n".to_owned();
+    list_contents.push_str("## Licenses\n\n");
+    for license in &licenses {
+        list_contents.push_str(&format!("* {}\n", license.id));
+    }
+    list_contents.push_str("\n## Exceptions\n\n");
+    for exception in &exceptions {
+        list_contents.push_str(&format!("* {}\n", exception.id));
+    }
+
+    fs::write(&list_path, list_contents.as_bytes()).expect("Couldn't write to list file.");
 }
