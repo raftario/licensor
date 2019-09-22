@@ -45,17 +45,16 @@ fn encode_file_gz<P: AsRef<Path> + Debug, W: Write>(src: P, dest: &mut W, level:
     io::copy(&mut file, &mut encoder).expect("Can't encode file");
 }
 
-fn main() {
-    let cargo_manifest_dir =
-        env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not defined");
-    let mut resources_path = PathBuf::from(cargo_manifest_dir)
-        .canonicalize()
-        .expect("Invalid Cargo manifest directory");
-    resources_path.pop();
-    resources_path.push("resources");
-
-    let mut lld_archive_path = resources_path.clone();
+fn get_lld_archive_path() -> PathBuf {
+    let mut lld_archive_path = licensor_common::get_resources_path();
     lld_archive_path.push("license-list-data-3.6.tar.gz");
+    lld_archive_path
+}
+
+fn main() {
+    let resources_path = licensor_common::get_resources_path();
+
+    let lld_archive_path = get_lld_archive_path();
     let mut lld_archive_ok = false;
     if lld_archive_path.is_file() {
         eprintln!("Found license list archive. Checking hash...");
@@ -85,11 +84,12 @@ fn main() {
     let mut parsed_licenses: Vec<String> = Vec::new();
     let mut parsed_exceptions: Vec<String> = Vec::new();
 
-    let mut lld_archive = Archive::new(decoded_archive.as_slice());
     let mut licenses_path = resources_path.clone();
     licenses_path.push("licenses");
     let mut exceptions_path = resources_path.clone();
     exceptions_path.push("exceptions");
+
+    let mut lld_archive = Archive::new(decoded_archive.as_slice());
     for file in lld_archive.entries().expect("Can't read archive") {
         let mut file = file.expect("Can't read archive file");
 

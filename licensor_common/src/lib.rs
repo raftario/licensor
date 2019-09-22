@@ -29,7 +29,7 @@ pub struct Exception {
 }
 
 #[cfg(feature = "deserialize")]
-fn get_resources_path() -> PathBuf {
+pub fn get_resources_path() -> PathBuf {
     let cargo_manifest_dir =
         env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not defined");
     let mut resources_path = PathBuf::from(cargo_manifest_dir)
