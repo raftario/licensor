@@ -7,6 +7,13 @@
       "id": {
         "type": "string",
         "description": "SPDX ID of the exception"
+      },
+      "with": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "IDs of the licenses this exception is meant to be used with"
       }
     },
     "description": "Exception descriptor",

@@ -1,3 +1,4 @@
+#[cfg(feature = "deserialize")]
 #[macro_use]
 extern crate serde;
 
@@ -17,4 +18,5 @@ pub struct License {
 #[cfg_attr(feature = "deserialize", derive(Debug, Deserialize))]
 pub struct Exception {
     pub id: String,
+    pub with: Option<Vec<String>>,
 }
