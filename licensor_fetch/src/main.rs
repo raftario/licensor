@@ -92,6 +92,9 @@ fn main() {
     let exceptions: Vec<Exception> =
         serde_json::from_reader(exceptions_json).expect("Can't parse exceptions.json");
 
+    let mut parsed_licenses: Vec<String> = Vec::new();
+    let mut parsed_exceptions: Vec<String> = Vec::new();
+
     let mut lld_archive = Archive::new(decoded_archive.as_slice());
     let mut licenses_path = resources_path.clone();
     licenses_path.push("licenses");
@@ -133,6 +136,8 @@ fn main() {
                         &mut encoded_license_file,
                         Compression::best(),
                     );
+
+                    parsed_licenses.push(license.id.clone());
                 }
             }
 
@@ -158,8 +163,19 @@ fn main() {
                         &mut encoded_exception_file,
                         Compression::best(),
                     );
+
+                    parsed_exceptions.push(exception.id.clone());
                 }
             }
         }
+    }
+
+    if licenses.len() != parsed_licenses.len() {
+        eprintln!("Some licenses couldn't be parsed. Check for error in licenses.json.");
+        process::exit(1);
+    }
+    if exceptions.len() != parsed_exceptions.len() {
+        eprintln!("Some exceptions couldn't be parsed. Check for error in exceptions.json.");
+        process::exit(1);
     }
 }
