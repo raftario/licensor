@@ -1,5 +1,7 @@
 # Available licenses and exceptions
 
+[//]: # (This is an automatically generated file, do not edit it.)
+
 ## Licenses
 
 * AGPL-3.0
