@@ -9,6 +9,9 @@ edition = "2018"
 version = "1.0.101"
 features = ["derive"]
 optional = true
+[dependencies.serde_json]
+version = "1.0.40"
+optional = true
 
 [features]
-deserialize = ["serde"]
+deserialize = ["serde", "serde_json"]

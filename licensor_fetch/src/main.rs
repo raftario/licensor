@@ -1,7 +1,6 @@
 use flate2::read::GzDecoder;
 use flate2::write::GzEncoder;
 use flate2::Compression;
-use licensor_common::{Exception, License};
 use sha3::{Digest, Sha3_256};
 use std::ffi::OsStr;
 use std::fmt::Debug;
@@ -80,17 +79,8 @@ fn main() {
     let mut decoded_archive: Vec<u8> = Vec::new();
     decode_gz_file(&lld_archive_path, &mut decoded_archive);
 
-    let mut licenses_json_path = resources_path.clone();
-    licenses_json_path.push("licenses.json");
-    let licenses_json = File::open(&licenses_json_path).expect("Can't read licenses.json");
-    let licenses: Vec<License> =
-        serde_json::from_reader(licenses_json).expect("Can't parse licenses.json");
-
-    let mut exceptions_json_path = resources_path.clone();
-    exceptions_json_path.push("exceptions.json");
-    let exceptions_json = File::open(&exceptions_json_path).expect("Can't read exceptions.json");
-    let exceptions: Vec<Exception> =
-        serde_json::from_reader(exceptions_json).expect("Can't parse exceptions.json");
+    let licenses = licensor_common::parse_licenses();
+    let exceptions = licensor_common::parse_exceptions();
 
     let mut parsed_licenses: Vec<String> = Vec::new();
     let mut parsed_exceptions: Vec<String> = Vec::new();

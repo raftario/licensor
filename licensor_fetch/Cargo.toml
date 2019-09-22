@@ -6,7 +6,6 @@ edition = "2018"
 
 [dependencies]
 reqwest = "0.9.20"
-serde_json = "1.0.40"
 sha3 = "0.8.2"
 tar = "0.4.26"
 [dependencies.flate2]
