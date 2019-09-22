@@ -174,7 +174,9 @@ fn main() {
     let mut list_path = licensor_common::get_root_path();
     list_path.push("LIST.md");
 
-    let mut list_contents = "# Available licenses and exceptions\n\n[//]: # (This is an automatically generated file, do not edit it.)\n\n".to_owned();
+    let mut list_contents = "# Available licenses and exceptions\n\n".to_owned();
+    list_contents
+        .push_str("[//]: # (This is an automatically generated file, do not edit it.)\n\n");
     list_contents.push_str("## Licenses\n\n");
     for license in &licenses {
         list_contents.push_str(&format!("* {}\n", license.id));

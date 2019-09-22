@@ -6,6 +6,7 @@ edition = "2018"
 
 [dependencies]
 phf_codegen = "0.7.24"
+rustfmt = "0.10.0"
 [dependencies.licensor_common]
 path = "../licensor_common"
 features = ["deserialize"]
