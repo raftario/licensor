@@ -6,6 +6,7 @@ extern crate calm_io;
 use crate::codegen::{EXCEPTIONS, EXCEPTIONS_INFO, LICENSES, LICENSES_INFO};
 use chrono::{Datelike, Utc};
 use flate2::read::GzDecoder;
+use phf::OrderedMap;
 use std::io;
 use std::io::Read;
 use std::process;
@@ -109,6 +110,77 @@ fn list_exceptions() -> io::Result<()> {
     Ok(())
 }
 
+fn is_similar(l: &str, r: &str) -> bool {
+    let ll = l.to_lowercase();
+    let lr = r.to_lowercase();
+    ll.contains(&lr) || lr.contains(&ll)
+}
+
+fn get_similar_keys(id: &str, iter: &OrderedMap<&'static str, &'static [u8]>) -> Vec<String> {
+    iter.keys()
+        .filter_map(|key| {
+            let key = key.to_string();
+            if is_similar(id, &key) {
+                Some(key)
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
+fn parse_license(id: &str) -> io::Result<String> {
+    if let Some(gz_contents) = LICENSES.get(id) {
+        if let Ok(contents) = gz_decode_bytes(gz_contents) {
+            Ok(contents)
+        } else {
+            stdoutln!("Can't decode license.")?;
+            unexpected()?;
+            Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "Can't decode license.",
+            ))
+        }
+    } else {
+        // TODO: use stderrln! once it's fixed
+        stdoutln!("Invalid license ID.")?;
+
+        let similar = get_similar_keys(&id, &LICENSES);
+        if similar.len() > 0 {
+            // TODO: use stderrln! once it's fixed
+            stdoutln!("Similar IDs: {}.", similar.join(", "))?;
+        }
+
+        process::exit(1);
+    }
+}
+
+fn parse_exception(id: &str) -> io::Result<String> {
+    if let Some(gz_contents) = EXCEPTIONS.get(id) {
+        if let Ok(contents) = gz_decode_bytes(gz_contents) {
+            Ok(contents)
+        } else {
+            stdoutln!("Can't decode exception.")?;
+            unexpected()?;
+            Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "Can't decode exception.",
+            ))
+        }
+    } else {
+        // TODO: use stderrln! once it's fixed
+        stdoutln!("Invalid exception ID.")?;
+
+        let similar = get_similar_keys(&id, &EXCEPTIONS);
+        if similar.len() > 0 {
+            // TODO: use stderrln! once it's fixed
+            stdoutln!("Similar IDs: {}.", similar.join(", "))?;
+        }
+
+        process::exit(1);
+    }
+}
+
 fn unexpected() -> io::Result<()> {
     // TODO: use stderrln! once it's fixed
     stdoutln!("This shouldn't have happened. Please open an issue with the command you entered: <https://github.com/raftario/licensor/issues>.")?;
@@ -127,11 +199,25 @@ fn main() -> io::Result<()> {
     }
     if let Some(expr) = args.spdx_expr {
         let expr = parse_spdx_expr(expr)?;
-        if let Some(exception) = expr.exception {
-            // TODO
-        } else {
-            // TODO
+
+        let mut license = parse_license(&expr.license)?;
+        license = license.replace('\r', "");
+        if !license.ends_with('\n') {
+            license.push('\n');
         }
+
+        if let Some(exception) = expr.exception {
+            let mut exception = parse_exception(&exception)?;
+            exception = exception.replace('\r', "");
+            if !exception.ends_with('\n') {
+                exception.push('\n');
+            }
+
+            license.push('\n');
+            license.push_str(&exception);
+        }
+
+        stdout!("{}", license)?;
     } else {
         // TODO: use stderrln! once it's fixed
         stdoutln!("Invalid arguments.")?;
