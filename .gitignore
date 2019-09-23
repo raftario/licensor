@@ -1,3 +1,6 @@
-/target
+**/target/
 **/*.rs.bk
 .idea/
+resources/licenses/*.txt
+resources/exceptions/*.txt
+resources/license-list-data-*.tar.gz

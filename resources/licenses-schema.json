@@ -6,19 +6,7 @@
     "properties": {
       "id": {
         "type": "string",
-        "description": "SPDX ID for the license"
-      },
-      "source": {
-        "type": "string",
-        "enum": [
-          "url",
-          "github"
-        ],
-        "description": "Type of the source for the license"
-      },
-      "value": {
-        "type": "string",
-        "description": "Source of the license"
+        "description": "SPDX ID of the license"
       },
       "replace": {
         "type": "object",
@@ -32,14 +20,19 @@
             "description": "Copyright holder"
           }
         },
-        "description": "Keyword that need to be replaced in the license"
+        "description": "Keywords that need to be replaced in the license"
+      },
+      "copyright": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Lines to remove when skipping the copyright notice in the license"
       }
-    }
-  },
-  "description": "License descriptor",
-  "required": [
-    "id",
-    "type",
-    "value"
-  ]
+    },
+    "description": "License descriptor",
+    "required": [
+      "id"
+    ]
+  }
 }

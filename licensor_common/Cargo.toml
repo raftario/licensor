@@ -1,0 +1,17 @@
+[package]
+name = "licensor_common"
+version = "0.1.0"
+authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+[dependencies.serde]
+version = "1.0.101"
+features = ["derive"]
+optional = true
+[dependencies.serde_json]
+version = "1.0.40"
+optional = true
+
+[features]
+deserialize = ["serde", "serde_json"]

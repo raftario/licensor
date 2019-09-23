@@ -1,0 +1,17 @@
+[package]
+name = "licensor_fetch"
+version = "0.1.0"
+authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+reqwest = "0.9.20"
+sha3 = "0.8.2"
+tar = "0.4.26"
+[dependencies.flate2]
+version = "1.0.11"
+default-features = false
+features = ["rust_backend"]
+[dependencies.licensor_common]
+path = "../licensor_common"
+features = ["deserialize"]
