@@ -16,13 +16,13 @@ jobs:
         toolchain: stable
         override: true
     - uses: actions-rs/cargo@v1
-      if: github.event_name == 'pull_request'
       with:
         command: run -p licensor_fetch
-    - uses: actions-rs/cargo@v1
       if: github.event_name == 'pull_request'
+    - uses: actions-rs/cargo@v1
       with:
         command: run -p licensor_codegen
+      if: github.event_name == 'pull_request'
     - uses: actions-rs/cargo@v1
       with:
         command: build --release
