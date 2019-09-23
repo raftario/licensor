@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "LLVM-exception",
+    "with": [
+      "Apache-2.0"
+    ]
+  }
+]

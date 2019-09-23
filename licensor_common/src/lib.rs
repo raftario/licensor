@@ -73,7 +73,7 @@ impl fmt::Debug for Exception {
         } else {
             "None".to_owned()
         };
-        write!(f, "Exception {{ id: {:?}, with: {:?} }}", &self.id, with)
+        write!(f, "Exception {{ id: {:?}, with: {} }}", &self.id, with)
     }
 }
 

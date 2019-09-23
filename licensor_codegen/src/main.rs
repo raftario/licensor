@@ -71,7 +71,7 @@ fn gen() {
         exceptions_builder.entry(
             exception.id.as_str(),
             &format!(
-                "include_bytes!(\"../resources/licenses/{}.txt.gz\")",
+                "include_bytes!(\"../resources/exceptions/{}.txt.gz\")",
                 exception.id
             ),
         );

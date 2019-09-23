@@ -169,13 +169,22 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
 };
 pub static EXCEPTIONS: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap {
     key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[]),
-    idxs: ::phf::Slice::Static(&[]),
-    entries: ::phf::Slice::Static(&[]),
+    disps: ::phf::Slice::Static(&[(0, 0)]),
+    idxs: ::phf::Slice::Static(&[0]),
+    entries: ::phf::Slice::Static(&[(
+        "LLVM-exception",
+        include_bytes!("../resources/exceptions/LLVM-exception.txt.gz"),
+    )]),
 };
 pub static EXCEPTIONS_INFO: OrderedMap<&'static str, Exception> = ::phf::OrderedMap {
     key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[]),
-    idxs: ::phf::Slice::Static(&[]),
-    entries: ::phf::Slice::Static(&[]),
+    disps: ::phf::Slice::Static(&[(0, 0)]),
+    idxs: ::phf::Slice::Static(&[0]),
+    entries: ::phf::Slice::Static(&[(
+        "LLVM-exception",
+        Exception {
+            id: "LLVM-exception",
+            with: Some(&["Apache-2.0"]),
+        },
+    )]),
 };
