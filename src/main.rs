@@ -199,6 +199,7 @@ fn main() -> io::Result<()> {
     }
     if let Some(expr) = args.spdx_expr {
         let expr = parse_spdx_expr(expr)?;
+        let mut valid_exception = true;
 
         let mut license = parse_license(&expr.license)?;
         license = license.replace('\r', "");
@@ -206,8 +207,8 @@ fn main() -> io::Result<()> {
             license.push('\n');
         }
 
-        if let Some(exception) = expr.exception {
-            let mut exception = parse_exception(&exception)?;
+        if let Some(exception_id) = &expr.exception {
+            let mut exception = parse_exception(exception_id)?;
             exception = exception.replace('\r', "");
             if !exception.ends_with('\n') {
                 exception.push('\n');
@@ -215,9 +216,46 @@ fn main() -> io::Result<()> {
 
             license.push('\n');
             license.push_str(&exception);
+
+            if let Some(exception_info) = EXCEPTIONS_INFO.get(exception_id.as_str()) {
+                if let Some(with) = &exception_info.with {
+                    if !with.iter().any(|l| l == &expr.license) {
+                        valid_exception = false;
+                    }
+                }
+            }
+        }
+
+        if let Some(license_info) = LICENSES_INFO.get(expr.license.as_str()) {
+            if !args.no_copyright {
+                if let Some(name) = args.copyright_holder {
+                    if let Some(replace) = &license_info.replace {
+                        if let Some(replace_year) = replace.year {
+                            let year = Utc::today().year().to_string();
+                            license = license.replace(replace_year, &year);
+                        }
+                        if let Some(replace_name) = replace.name {
+                            license = license.replace(replace_name, &name);
+                        }
+                    }
+                }
+            } else if let Some(copyright) = license_info.copyright {
+                let mut i: usize = 1;
+                let mut license_vec: Vec<&str> = license.split('\n').collect();
+                for line in copyright {
+                    license_vec.remove(line - i);
+                    i += 1;
+                }
+                license = license_vec.join("\n");
+            }
         }
 
         stdout!("{}", license)?;
+
+        if !valid_exception {
+            // TODO: use stderrln! once it's fixed
+            stdoutln!("This exception wasn't designed to be used with this license. Please consider using another license.")?;
+        }
     } else {
         // TODO: use stderrln! once it's fixed
         stdoutln!("Invalid arguments.")?;
