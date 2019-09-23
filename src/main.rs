@@ -109,10 +109,10 @@ fn list_exceptions() -> io::Result<()> {
     Ok(())
 }
 
-fn unexpected() -> io::Result<!> {
+fn unexpected() -> io::Result<()> {
     // TODO: use stderrln! once it's fixed
     stdoutln!("This shouldn't have happened. Please open an issue with the command you entered: <https://github.com/raftario/licensor/issues>.")?;
-    process::exit(1)
+    process::exit(1);
 }
 
 #[pipefail]
