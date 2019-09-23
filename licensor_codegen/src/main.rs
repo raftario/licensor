@@ -48,7 +48,7 @@ fn gen() {
 
     write!(
         &mut file,
-        "static LICENSES: OrderedMap<&'static str, &'static [u8]> = "
+        "pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = "
     )
     .expect("Can't write to codegen.rs.");
     licenses_builder
@@ -57,7 +57,7 @@ fn gen() {
     write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
     write!(
         &mut file,
-        "static LICENSES_INFO: OrderedMap<&'static str, License> = "
+        "pub static LICENSES_INFO: OrderedMap<&'static str, License> = "
     )
     .expect("Can't write to codegen.rs.");
     licenses_info_builder
@@ -80,7 +80,7 @@ fn gen() {
 
     write!(
         &mut file,
-        "static EXCEPTIONS: OrderedMap<&'static str, &'static [u8]> = "
+        "pub static EXCEPTIONS: OrderedMap<&'static str, &'static [u8]> = "
     )
     .expect("Can't write to codegen.rs.");
     exceptions_builder
@@ -89,7 +89,7 @@ fn gen() {
     write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
     write!(
         &mut file,
-        "static EXCEPTIONS_INFO: OrderedMap<&'static str, Exception> = "
+        "pub static EXCEPTIONS_INFO: OrderedMap<&'static str, Exception> = "
     )
     .expect("Can't write to codegen.rs.");
     exceptions_info_builder

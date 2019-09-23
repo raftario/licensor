@@ -5,27 +5,76 @@ extern crate serde;
 #[cfg(feature = "deserialize")]
 use std::env;
 #[cfg(feature = "deserialize")]
+use std::fmt;
+#[cfg(feature = "deserialize")]
 use std::fs::File;
 #[cfg(feature = "deserialize")]
 use std::path::PathBuf;
 
-#[cfg_attr(feature = "deserialize", derive(Debug, Deserialize))]
+#[cfg(feature = "deserialize")]
+#[derive(Debug, Deserialize)]
 pub struct LicenseReplace {
     pub year: Option<String>,
     pub name: Option<String>,
 }
+#[cfg(not(feature = "deserialize"))]
+pub struct LicenseReplace {
+    pub year: Option<&'static str>,
+    pub name: Option<&'static str>,
+}
 
-#[cfg_attr(feature = "deserialize", derive(Debug, Deserialize))]
+#[cfg(feature = "deserialize")]
+#[derive(Deserialize)]
 pub struct License {
     pub id: String,
     pub replace: Option<LicenseReplace>,
     pub copyright: Option<Vec<usize>>,
 }
+#[cfg(not(feature = "deserialize"))]
+pub struct License {
+    pub id: &'static str,
+    pub replace: Option<LicenseReplace>,
+    pub copyright: Option<&'static [usize]>,
+}
 
-#[cfg_attr(feature = "deserialize", derive(Debug, Deserialize))]
+#[cfg(feature = "deserialize")]
+#[derive(Deserialize)]
 pub struct Exception {
     pub id: String,
     pub with: Option<Vec<String>>,
+}
+#[cfg(not(feature = "deserialize"))]
+pub struct Exception {
+    pub id: &'static str,
+    pub with: Option<&'static [&'static str]>,
+}
+
+#[cfg(feature = "deserialize")]
+impl fmt::Debug for License {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let copyright = if let Some(copyright) = &self.copyright {
+            format!("Some(&{:?})", copyright)
+        } else {
+            "None".to_owned()
+        };
+        write!(
+            f,
+            "License {{ id: {:?}, replace: {:?}, copyright: {} }}",
+            &self.id, &self.replace, copyright
+        )
+    }
+}
+
+#[cfg(feature = "deserialize")]
+impl fmt::Debug for Exception {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let with = if let Some(with) = &self.with {
+            format!("Some(&{:?})", with)
+        } else {
+            "None".to_owned()
+        };
+        write!(f, "Exception {{ id: {:?}, with: {:?} }}", &self.id, with)
+    }
 }
 
 #[cfg(feature = "deserialize")]
