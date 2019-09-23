@@ -28,6 +28,9 @@
     ]
   },
   {
+    "id": "CDDL-1.0"
+  },
+  {
     "id": "EPL-2.0"
   },
   {
@@ -35,6 +38,19 @@
   },
   {
     "id": "GPL-3.0"
+  },
+  {
+    "id": "ISC",
+    "replace": {
+      "year": "1995-2003",
+      "name": "by Internet Software Consortium"
+    },
+    "copyright": [
+      1,
+      2,
+      3,
+      4
+    ]
   },
   {
     "id": "LGPL-2.1"
@@ -58,5 +74,16 @@
   },
   {
     "id": "Unlicense"
+  },
+  {
+    "id": "Zlib",
+    "replace": {
+      "year": "<year>",
+      "name": "<copyright holders>"
+    },
+    "copyright": [
+      1,
+      2
+    ]
   }
 ]

@@ -4,9 +4,9 @@ use licensor_common::{Exception, License, LicenseReplace};
 use phf::OrderedMap;
 
 pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap {
-    key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[(0, 8), (2, 0), (3, 0)]),
-    idxs: ::phf::Slice::Static(&[9, 4, 11, 10, 1, 2, 3, 0, 7, 5, 8, 6]),
+    key: 794399669663935756,
+    disps: ::phf::Slice::Static(&[(1, 0), (14, 13), (2, 12)]),
+    idxs: ::phf::Slice::Static(&[13, 7, 10, 3, 8, 4, 6, 11, 1, 14, 5, 2, 0, 12, 9]),
     entries: ::phf::Slice::Static(&[
         (
             "AGPL-3.0",
@@ -25,6 +25,10 @@ pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap
             include_bytes!("../resources/licenses/BSD-3-Clause.txt.gz"),
         ),
         (
+            "CDDL-1.0",
+            include_bytes!("../resources/licenses/CDDL-1.0.txt.gz"),
+        ),
+        (
             "EPL-2.0",
             include_bytes!("../resources/licenses/EPL-2.0.txt.gz"),
         ),
@@ -36,6 +40,7 @@ pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap
             "GPL-3.0",
             include_bytes!("../resources/licenses/GPL-3.0.txt.gz"),
         ),
+        ("ISC", include_bytes!("../resources/licenses/ISC.txt.gz")),
         (
             "LGPL-2.1",
             include_bytes!("../resources/licenses/LGPL-2.1.txt.gz"),
@@ -53,12 +58,13 @@ pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap
             "Unlicense",
             include_bytes!("../resources/licenses/Unlicense.txt.gz"),
         ),
+        ("Zlib", include_bytes!("../resources/licenses/Zlib.txt.gz")),
     ]),
 };
 pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap {
-    key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[(0, 8), (2, 0), (3, 0)]),
-    idxs: ::phf::Slice::Static(&[9, 4, 11, 10, 1, 2, 3, 0, 7, 5, 8, 6]),
+    key: 794399669663935756,
+    disps: ::phf::Slice::Static(&[(1, 0), (14, 13), (2, 12)]),
+    idxs: ::phf::Slice::Static(&[13, 7, 10, 3, 8, 4, 6, 11, 1, 14, 5, 2, 0, 12, 9]),
     entries: ::phf::Slice::Static(&[
         (
             "AGPL-3.0",
@@ -99,6 +105,14 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
             },
         ),
         (
+            "CDDL-1.0",
+            License {
+                id: "CDDL-1.0",
+                replace: None,
+                copyright: None,
+            },
+        ),
+        (
             "EPL-2.0",
             License {
                 id: "EPL-2.0",
@@ -120,6 +134,17 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "GPL-3.0",
                 replace: None,
                 copyright: None,
+            },
+        ),
+        (
+            "ISC",
+            License {
+                id: "ISC",
+                replace: Some(LicenseReplace {
+                    year: Some("1995-2003"),
+                    name: Some("by Internet Software Consortium"),
+                }),
+                copyright: Some(&[1, 2, 3, 4]),
             },
         ),
         (
@@ -163,6 +188,17 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "Unlicense",
                 replace: None,
                 copyright: None,
+            },
+        ),
+        (
+            "Zlib",
+            License {
+                id: "Zlib",
+                replace: Some(LicenseReplace {
+                    year: Some("<year>"),
+                    name: Some("<copyright holders>"),
+                }),
+                copyright: Some(&[1, 2]),
             },
         ),
     ]),
