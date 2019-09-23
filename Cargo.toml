@@ -24,7 +24,7 @@ members = [
 ]
 
 [dependencies]
-calm_io = "0.1.0"
+calm_io = "0.1.1"
 chrono = "0.4.9"
 phf = "0.7.23"
 structopt = "0.3.2"

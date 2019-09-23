@@ -74,8 +74,7 @@ fn parse_spdx_expr(expr: String) -> io::Result<SPDXExpr> {
                 exception: Some(expr[2].to_owned()),
             })
         } else {
-            // TODO: use stderrln! once it's fixed
-            stdoutln!(
+            stderrln!(
                 "Invalid SPDX expression. Did you mean \"{} WITH {}\"?",
                 expr[0],
                 expr[2]
@@ -83,8 +82,7 @@ fn parse_spdx_expr(expr: String) -> io::Result<SPDXExpr> {
             process::exit(1)
         }
     } else {
-        // TODO: use stderrln! once it's fixed
-        stdoutln!("Invalid SPDX expression.")?;
+        stderrln!("Invalid SPDX expression.")?;
         process::exit(1)
     }
 }
@@ -142,13 +140,11 @@ fn parse_license(id: &str) -> io::Result<String> {
             ))
         }
     } else {
-        // TODO: use stderrln! once it's fixed
-        stdoutln!("Invalid license ID.")?;
+        stderrln!("Invalid license ID.")?;
 
         let similar = get_similar_keys(&id, &LICENSES);
         if similar.len() > 0 {
-            // TODO: use stderrln! once it's fixed
-            stdoutln!("Similar IDs: {}.", similar.join(", "))?;
+            stderrln!("Similar IDs: {}.", similar.join(", "))?;
         }
 
         process::exit(1);
@@ -168,13 +164,11 @@ fn parse_exception(id: &str) -> io::Result<String> {
             ))
         }
     } else {
-        // TODO: use stderrln! once it's fixed
-        stdoutln!("Invalid exception ID.")?;
+        stderrln!("Invalid exception ID.")?;
 
         let similar = get_similar_keys(&id, &EXCEPTIONS);
         if similar.len() > 0 {
-            // TODO: use stderrln! once it's fixed
-            stdoutln!("Similar IDs: {}.", similar.join(", "))?;
+            stderrln!("Similar IDs: {}.", similar.join(", "))?;
         }
 
         process::exit(1);
@@ -182,8 +176,7 @@ fn parse_exception(id: &str) -> io::Result<String> {
 }
 
 fn unexpected() -> io::Result<()> {
-    // TODO: use stderrln! once it's fixed
-    stdoutln!("This shouldn't have happened. Please open an issue with the command you entered: <https://github.com/raftario/licensor/issues>.")?;
+    stderrln!("This shouldn't have happened. Please open an issue with the command you entered: <https://github.com/raftario/licensor/issues>.")?;
     process::exit(1);
 }
 
@@ -253,12 +246,10 @@ fn main() -> io::Result<()> {
         stdout!("{}", license)?;
 
         if !valid_exception {
-            // TODO: use stderrln! once it's fixed
-            stdoutln!("This exception wasn't designed to be used with this license. Please consider using another license.")?;
+            stderrln!("This exception wasn't designed to be used with this license. Please consider using another license.")?;
         }
     } else {
-        // TODO: use stderrln! once it's fixed
-        stdoutln!("Invalid arguments.")?;
+        stderrln!("Invalid arguments.")?;
         return unexpected();
     }
 
