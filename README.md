@@ -67,7 +67,7 @@ Finally, the main cli is built on its own, which makes the build time relatively
 
 ## Credits
 
-Thanks to people on the [/r/rust](https://reddit.com/r/rust) who provided great feedback and hints, and showed way more enthusiasm than initially expected.
+Thanks to the people on the [/r/rust](https://reddit.com/r/rust) subreddit who provided great feedback and hints, and showed way more enthusiasm than initially expected.
 
 ## Licensing
 
