@@ -36,8 +36,12 @@ struct Opt {
     list_exceptions: bool,
 
     /// Keeps the copyright notice even if no name is specified
-    #[structopt(short = "p", long = "placeholder")]
-    placeholder: bool,
+    #[structopt(short = "p", long = "keep-placeholder")]
+    keep_placeholder: bool,
+
+    /// Skips optional license contents
+    #[structopt(short = "O", long = "skip-optional")]
+    skip_optional: bool,
 
     /// SPDX license ID or expression
     ///
@@ -202,8 +206,16 @@ fn licensor_main(args: Opt) -> io::Result<()> {
                 }
             }
         } else if let Some(copyright) = license_info.copyright {
-            if !args.placeholder {
+            if !args.keep_placeholder {
                 license = license.replace(copyright, "");
+            }
+        }
+
+        if let Some(optional) = license_info.optional {
+            if args.skip_optional {
+                for s in optional {
+                    license = license.replace(s, "");
+                }
             }
         }
     }
@@ -213,7 +225,22 @@ fn licensor_main(args: Opt) -> io::Result<()> {
     if let Some(exception_id) = &expr.exception {
         let mut exception = parse_exception(exception_id)?;
         exception = exception.replace('\r', "");
-        clean_newlines(&mut exception);
+
+        if let Some(exception_info) = EXCEPTIONS_INFO.get(exception_id.as_str()) {
+            if let Some(with) = &exception_info.with {
+                if !with.iter().any(|l| l == &expr.license) {
+                    valid_exception = false;
+                }
+            }
+
+            if let Some(optional) = exception_info.optional {
+                if args.skip_optional {
+                    for s in optional {
+                        exception = exception.replace(s, "");
+                    }
+                }
+            }
+        }
 
         let max_length = {
             let license_lines: Vec<&str> = license.split('\n').collect();
@@ -228,16 +255,10 @@ fn licensor_main(args: Opt) -> io::Result<()> {
         };
         exception = textwrap::fill(&exception, max_length);
 
+        clean_newlines(&mut exception);
+
         license.push_str("\n\n\n");
         license.push_str(&exception);
-
-        if let Some(exception_info) = EXCEPTIONS_INFO.get(exception_id.as_str()) {
-            if let Some(with) = &exception_info.with {
-                if !with.iter().any(|l| l == &expr.license) {
-                    valid_exception = false;
-                }
-            }
-        }
     }
 
     license.push('\n');

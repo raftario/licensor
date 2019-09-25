@@ -8,7 +8,7 @@
 * Apache-2.0
 * BSD-2-Clause
 * BSD-3-Clause
-* CDDL-1.0
+* CDDL-1.1
 * EPL-2.0
 * GPL-2.0
 * GPL-3.0

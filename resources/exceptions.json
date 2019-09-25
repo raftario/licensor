@@ -3,6 +3,9 @@
     "id": "LLVM-exception",
     "with": [
       "Apache-2.0"
+    ],
+    "optional": [
+      "LLVM Exceptions to the Apache 2.0 License "
     ]
   }
 ]
