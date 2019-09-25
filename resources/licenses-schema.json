@@ -1,8 +1,29 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "range": {
+      "type": "array",
+      "items": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Start position (inclusive)"
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "description": "End position (exclusive)"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true
+    }
+  },
   "type": "array",
   "items": {
     "type": "object",
+    "description": "License descriptor",
     "properties": {
       "id": {
         "type": "string",
@@ -10,6 +31,7 @@
       },
       "replace": {
         "type": "object",
+        "description": "Keywords that need to be replaced in the license",
         "properties": {
           "year": {
             "type": "string",
@@ -19,20 +41,25 @@
             "type": "string",
             "description": "Copyright holder"
           }
-        },
-        "description": "Keywords that need to be replaced in the license"
+        }
       },
       "copyright": {
+        "$ref": "#/definitions/range",
+        "description": "Interval to remove when skipping the copyright notice in the license"
+      },
+      "optional": {
         "type": "array",
+        "description": "Intervals to remove when skipping the optional contents of the license",
         "items": {
-          "type": "integer"
+          "$ref": "#/definitions/range",
+          "description": "Optional interval"
         },
-        "description": "Lines to remove when skipping the copyright notice in the license"
+        "uniqueItems": true
       }
     },
-    "description": "License descriptor",
     "required": [
       "id"
     ]
-  }
+  },
+  "uniqueItems": true
 }

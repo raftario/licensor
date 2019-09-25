@@ -1,6 +1,27 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "range": {
+      "type": "array",
+      "items": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Start position (inclusive)"
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "description": "End position (exclusive)"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true
+    }
+  },
   "type": "array",
+  "description": "Exception descriptor",
   "items": {
     "type": "object",
     "properties": {
@@ -10,15 +31,25 @@
       },
       "with": {
         "type": "array",
+        "description": "IDs of the licenses this exception is meant to be used with",
         "items": {
           "type": "string"
         },
-        "description": "IDs of the licenses this exception is meant to be used with"
+        "uniqueItems": true
+      },
+      "optional": {
+        "type": "array",
+        "description": "Intervals to remove when skipping the optional contents of the exception",
+        "items": {
+          "$ref": "#/definitions/range",
+          "description": "Optional interval"
+        },
+        "uniqueItems": true
       }
     },
-    "description": "Exception descriptor",
     "required": [
       "id"
     ]
-  }
+  },
+  "uniqueItems": true
 }
