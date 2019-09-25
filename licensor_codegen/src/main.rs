@@ -26,7 +26,7 @@ fn gen() {
     .expect("Can't write to codegen.rs.");
     write!(
         &mut file,
-        "use licensor_common::{{License, Exception, LicenseReplace}};\nuse phf::OrderedMap;\n\n"
+        "use crate::types::{{License, Exception, LicenseReplace}};\nuse phf::OrderedMap;\n\n"
     )
     .expect("Can't write to codegen.rs.");
 

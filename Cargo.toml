@@ -32,5 +32,3 @@ structopt = "0.3.2"
 version = "1.0.11"
 default-features = false
 features = ["rust_backend"]
-[dependencies.licensor_common]
-path = "./licensor_common"

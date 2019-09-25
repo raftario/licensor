@@ -1,4 +1,5 @@
 mod codegen;
+mod types;
 
 #[macro_use]
 extern crate calm_io;
