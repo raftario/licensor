@@ -182,7 +182,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                     year: Some("<year>"),
                     name: Some("<copyright holders>"),
                 }),
-                copyright: Some("Copyright (c) <year> <copyright holders>\n\n"),
+                copyright: Some("Copyright (c) <year> <copyright holders>"),
                 optional: None,
             },
         ),
