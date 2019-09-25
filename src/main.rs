@@ -36,8 +36,6 @@ struct Args {
     list_exceptions: bool,
 
     /// Keeps the copyright notice even if no name is specified
-    ///
-    /// You'll need to fill the placeholders yourself if using that option.
     #[structopt(short = "p", long = "placeholder")]
     placeholder: bool,
 
@@ -50,7 +48,7 @@ struct Args {
     /// Name of the copyright holder
     ///
     /// Will be used in the copyright notice in licenses where it is present.
-    /// If the license has no copyright notice or the no-copyright option is specified, has no effect.
+    /// Has no effect if the license has no copyright notice.
     #[structopt(name = "NAME")]
     copyright_holder: Option<String>,
 }
