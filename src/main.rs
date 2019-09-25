@@ -35,11 +35,11 @@ struct Args {
     #[structopt(short = "e", long = "exceptions", group = "actions")]
     list_exceptions: bool,
 
-    /// Skips the copyright notice in licenses where it is present
+    /// Keeps the copyright notice even if no name is specified
     ///
-    /// The Berne convention makes that notice optional.
-    #[structopt(short = "c", long = "no-copyright")]
-    no_copyright: bool,
+    /// You'll need to fill the placeholders yourself if using that option.
+    #[structopt(short = "p", long = "placeholder")]
+    placeholder: bool,
 
     /// SPDX license ID or expression
     ///
@@ -221,26 +221,20 @@ fn main() -> io::Result<()> {
         }
 
         if let Some(license_info) = LICENSES_INFO.get(expr.license.as_str()) {
-            if !args.no_copyright {
-                if let Some(name) = args.copyright_holder {
-                    if let Some(replace) = &license_info.replace {
-                        if let Some(replace_year) = replace.year {
-                            let year = Utc::today().year().to_string();
-                            license = license.replace(replace_year, &year);
-                        }
-                        if let Some(replace_name) = replace.name {
-                            license = license.replace(replace_name, &name);
-                        }
+            if let Some(name) = args.copyright_holder {
+                if let Some(replace) = &license_info.replace {
+                    if let Some(replace_year) = replace.year {
+                        let year = Utc::today().year().to_string();
+                        license = license.replace(replace_year, &year);
+                    }
+                    if let Some(replace_name) = replace.name {
+                        license = license.replace(replace_name, &name);
                     }
                 }
             } else if let Some(copyright) = license_info.copyright {
-                let mut i: usize = 1;
-                let mut license_vec: Vec<&str> = license.split('\n').collect();
-                for line in copyright {
-                    license_vec.remove(line - i);
-                    i += 1;
+                if !args.placeholder {
+                    license = license.replace(copyright, "");
                 }
-                license = license_vec.join("\n");
             }
         }
 

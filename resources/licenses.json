@@ -53,7 +53,7 @@
       "year": "<year>",
       "name": "<copyright holders>"
     },
-    "copyright": "Copyright (c) <year> <copyright holders>\n\n"
+    "copyright": "Copyright (c) <year> <copyright holders>"
   },
   {
     "id": "MPL-2.0"
