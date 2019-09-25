@@ -11,10 +11,7 @@
       "year": "<year>",
       "name": "<owner>"
     },
-    "copyright": [
-      1,
-      2
-    ]
+    "copyright": "Copyright (c) <year> <owner>. All rights reserved.\n\n"
   },
   {
     "id": "BSD-3-Clause",
@@ -22,10 +19,7 @@
       "year": "<year>",
       "name": "<owner>"
     },
-    "copyright": [
-      1,
-      2
-    ]
+    "copyright": "Copyright (c) <year> <owner>. All rights reserved.\n\n"
   },
   {
     "id": "CDDL-1.0"
@@ -45,12 +39,7 @@
       "year": "1995-2003",
       "name": "by Internet Software Consortium"
     },
-    "copyright": [
-      1,
-      2,
-      3,
-      4
-    ]
+    "copyright": "Copyright (c) 1995-2003 by Internet Software Consortium\n\n"
   },
   {
     "id": "LGPL-2.1"
@@ -64,10 +53,7 @@
       "year": "<year>",
       "name": "<copyright holders>"
     },
-    "copyright": [
-      1,
-      2
-    ]
+    "copyright": "Copyright (c) <year> <copyright holders>\n\n"
   },
   {
     "id": "MPL-2.0"
@@ -81,9 +67,6 @@
       "year": "<year>",
       "name": "<copyright holders>"
     },
-    "copyright": [
-      1,
-      2
-    ]
+    "copyright": "Copyright (c) <year> <copyright holders>\n\n"
   }
 ]

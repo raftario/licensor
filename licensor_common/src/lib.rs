@@ -6,22 +6,25 @@ use std::fmt;
 use std::fs::File;
 use std::path::PathBuf;
 
+#[derive(Debug, Deserialize)]
 pub struct LicenseReplace {
     pub year: Option<String>,
     pub name: Option<String>,
 }
 
+#[derive(Deserialize)]
 pub struct License {
     pub id: String,
     pub replace: Option<LicenseReplace>,
-    pub copyright: Option<(usize, usize)>,
-    pub optional: Option<Vec<(usize, usize)>>,
+    pub copyright: Option<String>,
+    pub optional: Option<Vec<String>>,
 }
 
+#[derive(Deserialize)]
 pub struct Exception {
     pub id: String,
     pub with: Option<Vec<String>>,
-    pub optional: Option<Vec<(usize, usize)>>,
+    pub optional: Option<Vec<String>>,
 }
 
 impl fmt::Debug for License {
@@ -51,7 +54,11 @@ impl fmt::Debug for Exception {
         } else {
             "None".to_owned()
         };
-        write!(f, "Exception {{ id: {:?}, with: {}, optional: {} }}", &self.id, with, optional)
+        write!(
+            f,
+            "Exception {{ id: {:?}, with: {}, optional: {} }}",
+            &self.id, with, optional
+        )
     }
 }
 

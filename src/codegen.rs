@@ -1,6 +1,6 @@
 // This is an automatically generated file, do not edit it.
 
-use licensor_common::{Exception, License, LicenseReplace};
+use crate::types::{Exception, License, LicenseReplace};
 use phf::OrderedMap;
 
 pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap {
@@ -72,6 +72,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "AGPL-3.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -80,6 +81,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "Apache-2.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -90,7 +92,8 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                     year: Some("<year>"),
                     name: Some("<owner>"),
                 }),
-                copyright: Some(&[1, 2]),
+                copyright: Some("Copyright (c) <year> <owner>. All rights reserved.\n\n"),
+                optional: None,
             },
         ),
         (
@@ -101,7 +104,8 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                     year: Some("<year>"),
                     name: Some("<owner>"),
                 }),
-                copyright: Some(&[1, 2]),
+                copyright: Some("Copyright (c) <year> <owner>. All rights reserved.\n\n"),
+                optional: None,
             },
         ),
         (
@@ -110,6 +114,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "CDDL-1.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -118,6 +123,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "EPL-2.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -126,6 +132,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "GPL-2.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -134,6 +141,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "GPL-3.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -144,7 +152,8 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                     year: Some("1995-2003"),
                     name: Some("by Internet Software Consortium"),
                 }),
-                copyright: Some(&[1, 2, 3, 4]),
+                copyright: Some("Copyright (c) 1995-2003 by Internet Software Consortium\n\n"),
+                optional: None,
             },
         ),
         (
@@ -153,6 +162,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "LGPL-2.1",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -161,6 +171,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "LGPL-3.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -171,7 +182,8 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                     year: Some("<year>"),
                     name: Some("<copyright holders>"),
                 }),
-                copyright: Some(&[1, 2]),
+                copyright: Some("Copyright (c) <year> <copyright holders>\n\n"),
+                optional: None,
             },
         ),
         (
@@ -180,6 +192,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "MPL-2.0",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -188,6 +201,7 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                 id: "Unlicense",
                 replace: None,
                 copyright: None,
+                optional: None,
             },
         ),
         (
@@ -198,7 +212,8 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
                     year: Some("<year>"),
                     name: Some("<copyright holders>"),
                 }),
-                copyright: Some(&[1, 2]),
+                copyright: Some("Copyright (c) <year> <copyright holders>\n\n"),
+                optional: None,
             },
         ),
     ]),
@@ -221,6 +236,7 @@ pub static EXCEPTIONS_INFO: OrderedMap<&'static str, Exception> = ::phf::Ordered
         Exception {
             id: "LLVM-exception",
             with: Some(&["Apache-2.0"]),
+            optional: None,
         },
     )]),
 };
