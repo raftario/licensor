@@ -26,7 +26,7 @@ fn actions_arg_group() -> ArgGroup<'static> {
 /// A name for the copyright holder can optionally be provided for licenses where a notice is included.
 /// If the provided ID isn't found, similar ones will be suggested.
 /// Licenses are all compiled into the binary.
-struct Args {
+struct Opt {
     /// Lists available licenses
     #[structopt(short = "l", long = "licenses", group = "actions")]
     list_licenses: bool,
@@ -93,18 +93,13 @@ fn gz_decode_bytes(src: &[u8]) -> io::Result<String> {
     Ok(result)
 }
 
-fn list_licenses() -> io::Result<()> {
-    for id in LICENSES.keys() {
-        stdoutln!("{}", id)?;
+fn clean_newlines(str: &mut String) {
+    while str.starts_with("\n") {
+        str.remove(0);
     }
-    Ok(())
-}
-
-fn list_exceptions() -> io::Result<()> {
-    for id in EXCEPTIONS.keys() {
-        stdoutln!("{}", id)?;
+    while str.ends_with("\n") {
+        str.pop();
     }
-    Ok(())
 }
 
 fn is_similar(l: &str, r: &str) -> bool {
@@ -174,6 +169,88 @@ fn parse_exception(id: &str) -> io::Result<String> {
     }
 }
 
+fn list_licenses() -> io::Result<()> {
+    for id in LICENSES.keys() {
+        stdoutln!("{}", id)?;
+    }
+    Ok(())
+}
+
+fn list_exceptions() -> io::Result<()> {
+    for id in EXCEPTIONS.keys() {
+        stdoutln!("{}", id)?;
+    }
+    Ok(())
+}
+
+fn licensor_main(args: Opt) -> io::Result<()> {
+    let expr = parse_spdx_expr(args.spdx_expr.unwrap())?;
+    let mut valid_exception = true;
+
+    let mut license = parse_license(&expr.license)?;
+    license = license.replace('\r', "");
+
+    if let Some(license_info) = LICENSES_INFO.get(expr.license.as_str()) {
+        if let Some(name) = args.copyright_holder {
+            if let Some(replace) = &license_info.replace {
+                if let Some(replace_year) = replace.year {
+                    let year = Utc::today().year().to_string();
+                    license = license.replace(replace_year, &year);
+                }
+                if let Some(replace_name) = replace.name {
+                    license = license.replace(replace_name, &name);
+                }
+            }
+        } else if let Some(copyright) = license_info.copyright {
+            if !args.placeholder {
+                license = license.replace(copyright, "");
+            }
+        }
+    }
+
+    clean_newlines(&mut license);
+
+    if let Some(exception_id) = &expr.exception {
+        let mut exception = parse_exception(exception_id)?;
+        exception = exception.replace('\r', "");
+        clean_newlines(&mut exception);
+
+        let max_length = {
+            let license_lines: Vec<&str> = license.split('\n').collect();
+            let mut max_length = 40;
+            for line in license_lines {
+                let length = line.len();
+                if length > max_length {
+                    max_length = length;
+                }
+            }
+            max_length
+        };
+        exception = textwrap::fill(&exception, max_length);
+
+        license.push_str("\n\n\n");
+        license.push_str(&exception);
+
+        if let Some(exception_info) = EXCEPTIONS_INFO.get(exception_id.as_str()) {
+            if let Some(with) = &exception_info.with {
+                if !with.iter().any(|l| l == &expr.license) {
+                    valid_exception = false;
+                }
+            }
+        }
+    }
+
+    license.push('\n');
+
+    stdout!("{}", license)?;
+
+    if !valid_exception {
+        stderrln!("This exception wasn't designed to be used with this license. Please consider using another license or removing it.")?;
+    }
+
+    Ok(())
+}
+
 fn unexpected() -> io::Result<()> {
     stderrln!("This shouldn't have happened. Please open an issue with the command you entered: <https://github.com/raftario/licensor/issues>.")?;
     process::exit(1);
@@ -181,85 +258,16 @@ fn unexpected() -> io::Result<()> {
 
 #[pipefail]
 fn main() -> io::Result<()> {
-    let args = Args::from_args();
+    let args = Opt::from_args();
 
     if args.list_licenses {
         return list_licenses();
-    }
-    if args.list_exceptions {
+    } else if args.list_exceptions {
         return list_exceptions();
-    }
-    if let Some(expr) = args.spdx_expr {
-        let expr = parse_spdx_expr(expr)?;
-        let mut valid_exception = true;
-
-        let mut license = parse_license(&expr.license)?;
-        license = license.replace('\r', "");
-        if !license.ends_with('\n') {
-            license.push('\n');
-        }
-
-        if let Some(exception_id) = &expr.exception {
-            let mut exception = parse_exception(exception_id)?;
-            exception = exception.replace('\r', "");
-
-            let max_length = {
-                let license_lines: Vec<&str> = license.split('\n').collect();
-                let mut max_length = 80;
-                for line in license_lines {
-                    let length = line.len();
-                    if length > max_length {
-                        max_length = length;
-                    }
-                }
-                max_length
-            };
-            exception = textwrap::fill(&exception, max_length);
-
-            if !exception.ends_with('\n') {
-                exception.push('\n');
-            }
-
-            license.push('\n');
-            license.push('\n');
-            license.push_str(&exception);
-
-            if let Some(exception_info) = EXCEPTIONS_INFO.get(exception_id.as_str()) {
-                if let Some(with) = &exception_info.with {
-                    if !with.iter().any(|l| l == &expr.license) {
-                        valid_exception = false;
-                    }
-                }
-            }
-        }
-
-        if let Some(license_info) = LICENSES_INFO.get(expr.license.as_str()) {
-            if let Some(name) = args.copyright_holder {
-                if let Some(replace) = &license_info.replace {
-                    if let Some(replace_year) = replace.year {
-                        let year = Utc::today().year().to_string();
-                        license = license.replace(replace_year, &year);
-                    }
-                    if let Some(replace_name) = replace.name {
-                        license = license.replace(replace_name, &name);
-                    }
-                }
-            } else if let Some(copyright) = license_info.copyright {
-                if !args.placeholder {
-                    license = license.replace(copyright, "");
-                }
-            }
-        }
-
-        stdout!("{}", license)?;
-
-        if !valid_exception {
-            stderrln!("This exception wasn't designed to be used with this license. Please consider using another license or removing it.")?;
-        }
+    } else if args.spdx_expr.is_some() {
+        return licensor_main(args);
     } else {
         stderrln!("Invalid arguments.")?;
         return unexpected();
     }
-
-    Ok(())
 }
