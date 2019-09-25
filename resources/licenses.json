@@ -87,8 +87,7 @@
     },
     "copyright": "Copyright (c) <year> <copyright holders>",
     "optional": [
-      "MIT License ",
-      "(including the next\nparagraph) "
+      "MIT License "
     ]
   },
   {
