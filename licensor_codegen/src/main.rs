@@ -1,9 +1,6 @@
-use ::rustfmt::config::Config;
-use ::rustfmt::Input;
 use phf_codegen::OrderedMap;
-use std::fs;
 use std::fs::File;
-use std::io::{Read, Write};
+use std::io::Write;
 use std::path::PathBuf;
 
 fn get_path() -> PathBuf {
@@ -13,7 +10,7 @@ fn get_path() -> PathBuf {
     path
 }
 
-fn gen() {
+fn main() {
     eprintln!("Writing codegen.rs...");
 
     let path = get_path();
@@ -96,25 +93,4 @@ fn gen() {
         .build(&mut file)
         .expect("Can't write to codegen.rs.");
     write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
-}
-
-fn format() {
-    eprintln!("Formatting codegen.rs...");
-
-    let path = get_path();
-
-    let mut file = File::open(&path).expect("Can't open codegen.rs");
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)
-        .expect("Can't read codegen.rs.");
-
-    let format_result =
-        ::rustfmt::format_input::<File>(Input::Text(contents), &Config::default(), None)
-            .expect("Can't format codegen.rs");
-    fs::write(&path, format_result.1[0].1.to_string()).expect("Can't write to codegen.rs.");
-}
-
-fn main() {
-    gen();
-    format();
 }

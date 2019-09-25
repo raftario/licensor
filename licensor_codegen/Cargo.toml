@@ -7,4 +7,3 @@ edition = "2018"
 [dependencies]
 licensor_common = { path = "../licensor_common" }
 phf_codegen = "0.7.24"
-rustfmt = "0.10.0"
