@@ -202,10 +202,25 @@ fn main() -> io::Result<()> {
         if let Some(exception_id) = &expr.exception {
             let mut exception = parse_exception(exception_id)?;
             exception = exception.replace('\r', "");
+
+            let max_length = {
+                let license_lines: Vec<&str> = license.split('\n').collect();
+                let mut max_length = 80;
+                for line in license_lines {
+                    let length = line.len();
+                    if length > max_length {
+                        max_length = length;
+                    }
+                }
+                max_length
+            };
+            exception = textwrap::fill(&exception, max_length);
+
             if !exception.ends_with('\n') {
                 exception.push('\n');
             }
 
+            license.push('\n');
             license.push('\n');
             license.push_str(&exception);
 
@@ -239,7 +254,7 @@ fn main() -> io::Result<()> {
         stdout!("{}", license)?;
 
         if !valid_exception {
-            stderrln!("This exception wasn't designed to be used with this license. Please consider using another license.")?;
+            stderrln!("This exception wasn't designed to be used with this license. Please consider using another license or removing it.")?;
         }
     } else {
         stderrln!("Invalid arguments.")?;

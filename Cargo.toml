@@ -28,6 +28,7 @@ calm_io = "0.1.1"
 chrono = "0.4.9"
 phf = "0.7.23"
 structopt = "0.3.2"
+textwrap = "0.11.0"
 [dependencies.flate2]
 version = "1.0.11"
 default-features = false
