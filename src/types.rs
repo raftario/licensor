@@ -6,10 +6,12 @@ pub struct LicenseReplace {
 pub struct License {
     pub id: &'static str,
     pub replace: Option<LicenseReplace>,
-    pub copyright: Option<&'static [usize]>,
+    pub copyright: Option<(usize, usize)>,
+    pub optional: Option<&'static [(usize, usize)]>,
 }
 
 pub struct Exception {
     pub id: &'static str,
     pub with: Option<&'static [&'static str]>,
+    pub optional: Option<&'static [(usize, usize)]>,
 }

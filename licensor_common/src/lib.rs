@@ -14,25 +14,27 @@ pub struct LicenseReplace {
 pub struct License {
     pub id: String,
     pub replace: Option<LicenseReplace>,
-    pub copyright: Option<Vec<usize>>,
+    pub copyright: Option<(usize, usize)>,
+    pub optional: Option<Vec<(usize, usize)>>,
 }
 
 pub struct Exception {
     pub id: String,
     pub with: Option<Vec<String>>,
+    pub optional: Option<Vec<(usize, usize)>>,
 }
 
 impl fmt::Debug for License {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let copyright = if let Some(copyright) = &self.copyright {
-            format!("Some(&{:?})", copyright)
+        let optional = if let Some(optional) = &self.optional {
+            format!("Some(&{:?})", optional)
         } else {
             "None".to_owned()
         };
         write!(
             f,
-            "License {{ id: {:?}, replace: {:?}, copyright: {} }}",
-            &self.id, &self.replace, copyright
+            "License {{ id: {:?}, replace: {:?}, copyright: {:?}, optional: {} }}",
+            &self.id, &self.replace, &self.copyright, optional
         )
     }
 }
@@ -44,7 +46,12 @@ impl fmt::Debug for Exception {
         } else {
             "None".to_owned()
         };
-        write!(f, "Exception {{ id: {:?}, with: {} }}", &self.id, with)
+        let optional = if let Some(optional) = &self.optional {
+            format!("Some(&{:?})", optional)
+        } else {
+            "None".to_owned()
+        };
+        write!(f, "Exception {{ id: {:?}, with: {}, optional: {} }}", &self.id, with, optional)
     }
 }
 
