@@ -6,6 +6,7 @@
 
 * AGPL-3.0
 * Apache-2.0
+* Artistic-2.0
 * BSD-2-Clause
 * BSD-3-Clause
 * CDDL-1.1
@@ -22,4 +23,7 @@
 
 ## Exceptions
 
+* GCC-exception-2.0
+* GCC-exception-3.1
 * LLVM-exception
+* Linux-syscall-note

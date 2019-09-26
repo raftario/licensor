@@ -6,9 +6,9 @@ use crate::types::{Exception, License, LicenseReplace};
 use phf::OrderedMap;
 
 pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap {
-    key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[(0, 12), (0, 0), (3, 11)]),
-    idxs: ::phf::Slice::Static(&[1, 9, 11, 10, 13, 7, 8, 4, 12, 5, 3, 6, 2, 14, 0]),
+    key: 732231254413039614,
+    disps: ::phf::Slice::Static(&[(6, 0), (3, 4), (3, 1), (1, 0)]),
+    idxs: ::phf::Slice::Static(&[1, 13, 14, 3, 11, 0, 2, 9, 15, 7, 12, 10, 5, 4, 8, 6]),
     entries: ::phf::Slice::Static(&[
         (
             "AGPL-3.0",
@@ -17,6 +17,10 @@ pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap
         (
             "Apache-2.0",
             include_bytes!("../resources/licenses/Apache-2.0.txt.gz"),
+        ),
+        (
+            "Artistic-2.0",
+            include_bytes!("../resources/licenses/Artistic-2.0.txt.gz"),
         ),
         (
             "BSD-2-Clause",
@@ -64,32 +68,35 @@ pub static LICENSES: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap
     ]),
 };
 pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap {
-    key: 3213172566270843353,
+    key: 732231254413039614,
     disps: ::phf::Slice::Static(&[
-        (0, 12),
-        (0, 0),
-        (3, 11),
+        (6, 0),
+        (3, 4),
+        (3, 1),
+        (1, 0),
     ]),
     idxs: ::phf::Slice::Static(&[
         1,
-        9,
-        11,
-        10,
         13,
-        7,
-        8,
-        4,
-        12,
-        5,
-        3,
-        6,
-        2,
         14,
+        3,
+        11,
         0,
+        2,
+        9,
+        15,
+        7,
+        12,
+        10,
+        5,
+        4,
+        8,
+        6,
     ]),
     entries: ::phf::Slice::Static(&[
         ("AGPL-3.0", License { id: "AGPL-3.0", replace: None, copyright: None, optional: Some(&["GNU AFFERO GENERAL PUBLIC LICENSE\n\nVersion 3, 19 November 2007", " END OF\nTERMS AND CONDITIONS\n\nHow to Apply These Terms to Your New Programs\n\nIf you develop a new program, and you want it to be of the greatest possible\nuse to the public, the best way to achieve this is to make it free software\nwhich everyone can redistribute and change under these terms.\n\nTo do so, attach the following notices to the program. It is safest to attach\nthem to the start of each source file to most effectively state the exclusion\nof warranty; and each file should have at least the \"copyright\" line and a\npointer to where the full notice is found.\n\n<one line to give the program\'s name and a brief idea of what it does.>\n\nCopyright (C) <year> <name of author>\n\nThis program is free software: you can redistribute it and/or modify it under\nthe terms of the GNU Affero General Public License as published by the Free\nSoftware Foundation, either version 3 of the License, or (at your option)\nany later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT\nANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS\nFOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more\ndetails.\n\nYou should have received a copy of the GNU Affero General Public License along\nwith this program. If not, see <https://www.gnu.org/licenses/>.\n\nAlso add information on how to contact you by electronic and paper mail.\n\nIf your software can interact with users remotely through a computer network,\nyou should also make sure that it provides a way for users to get its source.\nFor example, if your program is a web application, its interface could display\na \"Source\" link that leads users to an archive of the code. There are many\nways you could offer source, and different solutions will be better for different\nprograms; see section 13 for the specific requirements.\n\nYou should also get your employer (if you work as a programmer) or school,\nif any, to sign a \"copyright disclaimer\" for the program, if necessary. For\nmore information on this, and how to apply and follow the GNU AGPL, see <https://www.gnu.org/licenses/>."]) }),
         ("Apache-2.0", License { id: "Apache-2.0", replace: None, copyright: None, optional: Some(&["Apache License\n\nVersion 2.0, January 2004\n\nhttp://www.apache.org/licenses/ TERMS AND CONDITIONS FOR USE, REPRODUCTION,\nAND DISTRIBUTION", " END OF TERMS AND CONDITIONS\n\nAPPENDIX: How to apply the Apache License to your work.\n\nTo apply the Apache License to your work, attach the following boilerplate\nnotice, with the fields enclosed by brackets \"[]\" replaced with your own identifying\ninformation. (Don\'t include the brackets!) The text should be enclosed in\nthe appropriate comment syntax for the file format. We also recommend that\na file or class name and description of purpose be included on the same \"printed\npage\" as the copyright notice for easier identification within third-party\narchives.\n\nCopyright [yyyy] [name of copyright owner]\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\n\nyou may not use this file except in compliance with the License.\n\nYou may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\n\ndistributed under the License is distributed on an \"AS IS\" BASIS,\n\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n\nSee the License for the specific language governing permissions and\n\nlimitations under the License."]) }),
+        ("Artistic-2.0", License { id: "Artistic-2.0", replace: None, copyright: None, optional: Some(&["The Artistic License 2.0"]) }),
         ("BSD-2-Clause", License { id: "BSD-2-Clause", replace: Some(LicenseReplace { year: Some("<year>"), name: Some("<owner>") }), copyright: Some("Copyright (c) <year> <owner>. All rights reserved."), optional: None }),
         ("BSD-3-Clause", License { id: "BSD-3-Clause", replace: Some(LicenseReplace { year: Some("<year>"), name: Some("<owner>") }), copyright: Some("Copyright (c) <year> <owner>. All rights reserved."), optional: None }),
         ("CDDL-1.1", License { id: "CDDL-1.1", replace: None, copyright: None, optional: Some(&["COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)\n\nVersion 1.1"]) }),
@@ -106,24 +113,64 @@ pub static LICENSES_INFO: OrderedMap<&'static str, License> = ::phf::OrderedMap 
     ]),
 };
 pub static EXCEPTIONS: OrderedMap<&'static str, &'static [u8]> = ::phf::OrderedMap {
-    key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[(0, 0)]),
-    idxs: ::phf::Slice::Static(&[0]),
-    entries: ::phf::Slice::Static(&[(
-        "LLVM-exception",
-        include_bytes!("../resources/exceptions/LLVM-exception.txt.gz"),
-    )]),
+    key: 6925680744564340301,
+    disps: ::phf::Slice::Static(&[(3, 0)]),
+    idxs: ::phf::Slice::Static(&[2, 3, 0, 1]),
+    entries: ::phf::Slice::Static(&[
+        (
+            "GCC-exception-2.0",
+            include_bytes!("../resources/exceptions/GCC-exception-2.0.txt.gz"),
+        ),
+        (
+            "GCC-exception-3.1",
+            include_bytes!("../resources/exceptions/GCC-exception-3.1.txt.gz"),
+        ),
+        (
+            "LLVM-exception",
+            include_bytes!("../resources/exceptions/LLVM-exception.txt.gz"),
+        ),
+        (
+            "Linux-syscall-note",
+            include_bytes!("../resources/exceptions/Linux-syscall-note.txt.gz"),
+        ),
+    ]),
 };
 pub static EXCEPTIONS_INFO: OrderedMap<&'static str, Exception> = ::phf::OrderedMap {
-    key: 3213172566270843353,
-    disps: ::phf::Slice::Static(&[(0, 0)]),
-    idxs: ::phf::Slice::Static(&[0]),
-    entries: ::phf::Slice::Static(&[(
-        "LLVM-exception",
-        Exception {
-            id: "LLVM-exception",
-            with: Some(&["Apache-2.0"]),
-            optional: Some(&["LLVM Exceptions to the Apache 2.0 License "]),
-        },
-    )]),
+    key: 6925680744564340301,
+    disps: ::phf::Slice::Static(&[(3, 0)]),
+    idxs: ::phf::Slice::Static(&[2, 3, 0, 1]),
+    entries: ::phf::Slice::Static(&[
+        (
+            "GCC-exception-2.0",
+            Exception {
+                id: "GCC-exception-2.0",
+                with: Some(&["GPL-2.0", "GPL-3.0"]),
+                optional: None,
+            },
+        ),
+        (
+            "GCC-exception-3.1",
+            Exception {
+                id: "GCC-exception-3.1",
+                with: Some(&["GPL-3.0"]),
+                optional: Some(&["GCC RUNTIME LIBRARY EXCEPTION\n\nVersion 3.1, 31 March 2009"]),
+            },
+        ),
+        (
+            "LLVM-exception",
+            Exception {
+                id: "LLVM-exception",
+                with: Some(&["Apache-2.0"]),
+                optional: Some(&["LLVM Exceptions to the Apache 2.0 License "]),
+            },
+        ),
+        (
+            "Linux-syscall-note",
+            Exception {
+                id: "Linux-syscall-note",
+                with: Some(&["GPL-2.0"]),
+                optional: None,
+            },
+        ),
+    ]),
 };

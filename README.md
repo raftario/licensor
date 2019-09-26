@@ -55,6 +55,8 @@ $ licensor --licenses
 
 There are a couple installation option available.
 
+You are welcome to ditribute this software on other platforms, don't hesitate to open a PR to update this section if you do so!
+
 ### [Releases](https://github.com/raftario/licensor/releases/latest)
 
 ### [Crates.io](https://crates.io/crates/licensor)
@@ -75,7 +77,7 @@ See [list](./LIST.md).
 
 ## Contributing
 
-Contributors are welcome. If you see anything that could be fixed/improved or have a new feature idea, open an issue or a PR.
+Contributors are welcome. If you see anything that could be fixed/improved or have a new feature idea, just open an issue or a PR!
 
 However, try to keep the main CLI as simple and light as possible. Features such as adding licenses/exceptions at runtime or validating licenses are not planned and will not be added.
 

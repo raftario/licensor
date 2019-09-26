@@ -1,11 +1,33 @@
 [
   {
+    "id":  "GCC-exception-2.0",
+    "with": [
+      "GPL-2.0",
+      "GPL-3.0"
+    ]
+  },
+  {
+    "id":  "GCC-exception-3.1",
+    "with": [
+      "GPL-3.0"
+    ],
+    "optional": [
+      "GCC RUNTIME LIBRARY EXCEPTION\n\nVersion 3.1, 31 March 2009"
+    ]
+  },
+  {
     "id": "LLVM-exception",
     "with": [
       "Apache-2.0"
     ],
     "optional": [
       "LLVM Exceptions to the Apache 2.0 License "
+    ]
+  },
+  {
+    "id": "Linux-syscall-note",
+    "with": [
+      "GPL-2.0"
     ]
   }
 ]
