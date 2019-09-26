@@ -297,7 +297,7 @@ fn main() -> io::Result<()> {
 #[cfg(test)]
 mod tests {
     mod parse_spdx_expr {
-        use super::super::{parse_spdx_expr, SPDXExpr};
+        use crate::{parse_spdx_expr, SPDXExpr};
 
         #[test]
         fn simple_expr() {
@@ -323,7 +323,7 @@ mod tests {
     }
 
     mod gz_decode_bytes {
-        use super::super::gz_decode_bytes;
+        use crate::gz_decode_bytes;
         use flate2::write::GzEncoder;
         use flate2::Compression;
         use std::io::Write;
@@ -344,7 +344,7 @@ mod tests {
     }
 
     mod clean_newlines {
-        use super::super::clean_newlines;
+        use crate::clean_newlines;
 
         #[test]
         fn works() {
@@ -357,7 +357,7 @@ mod tests {
     }
 
     mod is_similar {
-        use super::super::is_similar;
+        use crate::is_similar;
 
         #[test]
         fn yes_contains() {
@@ -394,8 +394,7 @@ mod tests {
     }
 
     mod get_similar_keys {
-        use super::super::get_similar_keys;
-        use crate::LICENSES;
+        use crate::{get_similar_keys, LICENSES};
 
         #[test]
         fn works() {
@@ -413,7 +412,7 @@ mod tests {
     }
 
     mod parse_license {
-        use super::super::parse_license;
+        use crate::parse_license;
 
         #[test]
         fn works() {
@@ -423,7 +422,7 @@ mod tests {
     }
 
     mod parse_exception {
-        use super::super::parse_exception;
+        use crate::parse_exception;
 
         #[test]
         fn works() {

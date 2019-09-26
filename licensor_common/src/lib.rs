@@ -95,3 +95,19 @@ pub fn parse_exceptions() -> Vec<Exception> {
     let exceptions_json = File::open(&exceptions_json_path).expect("Can't read exceptions.json");
     serde_json::from_reader(exceptions_json).expect("Can't parse exceptions.json")
 }
+
+#[cfg(test)]
+mod tests {
+    mod parse {
+        use crate::{parse_exceptions, parse_licenses};
+
+        #[test]
+        fn works() {
+            let licenses = parse_licenses();
+            let exceptions = parse_exceptions();
+
+            assert!(!licenses.is_empty());
+            assert!(!exceptions.is_empty());
+        }
+    }
+}
