@@ -1,0 +1,47 @@
+name: Checks
+on: [pull_request]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    - run: rustup component add rustfmt
+    - run: rustup component add clippy
+    - name: Run tests
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --all
+    - name: Check for clippy warnings
+      uses: actions-rs/cargo@v1
+      with:
+        command: clippy
+        args: --all -- -D warnings
+    - name: Check formatting
+      uses: actions-rs/cargo@v1
+      with:
+        command: fmt
+        args: --all -- --check
+    - name: Fetch and parse licenses
+      uses: actions-rs/cargo@v1
+      with:
+        command: run
+        args: -p licensor_fetch
+    - name: Generate code
+      uses: actions-rs/cargo@v1
+      with:
+        command: run
+        args: -p licensor_codegen
+    - name: Format newly generated code
+      uses: actions-rs/cargo@v1
+      with:
+        command: fmt
+        args: --all
+    - name: Check for changed files
+      run: git diff --exit-code
