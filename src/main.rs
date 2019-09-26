@@ -57,6 +57,7 @@ struct Opt {
     copyright_holder: Option<String>,
 }
 
+#[cfg_attr(test, derive(Debug, PartialEq))]
 struct SPDXExpr {
     license: String,
     exception: Option<String>,
@@ -290,5 +291,144 @@ fn main() -> io::Result<()> {
     } else {
         stderrln!("Invalid arguments.")?;
         unexpected()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    mod parse_spdx_expr {
+        use super::super::{parse_spdx_expr, SPDXExpr};
+
+        #[test]
+        fn simple_expr() {
+            let result = parse_spdx_expr("MIT".to_owned()).unwrap();
+            let expected = SPDXExpr {
+                license: "MIT".to_owned(),
+                exception: None,
+            };
+
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn complex_expr() {
+            let result = parse_spdx_expr("Apache-2.0 WITH LLVM-exception".to_owned()).unwrap();
+            let expected = SPDXExpr {
+                license: "Apache-2.0".to_owned(),
+                exception: Some("LLVM-exception".to_owned()),
+            };
+
+            assert_eq!(result, expected);
+        }
+    }
+
+    mod gz_decode_bytes {
+        use super::super::gz_decode_bytes;
+        use flate2::write::GzEncoder;
+        use flate2::Compression;
+        use std::io::Write;
+
+        #[test]
+        fn works() {
+            let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
+            encoder
+                .write_all(b"MIT License Copyright (c) <year> <copyright holders>")
+                .unwrap();
+            let encoded = encoder.finish().unwrap();
+
+            let result = gz_decode_bytes(&encoded).unwrap();
+            let expected = "MIT License Copyright (c) <year> <copyright holders>".to_owned();
+
+            assert_eq!(result, expected);
+        }
+    }
+
+    mod clean_newlines {
+        use super::super::clean_newlines;
+
+        #[test]
+        fn works() {
+            let mut result = "\n\nMIT\n\n".to_owned();
+            clean_newlines(&mut result);
+            let expected = "MIT".to_owned();
+
+            assert_eq!(result, expected);
+        }
+    }
+
+    mod is_similar {
+        use super::super::is_similar;
+
+        #[test]
+        fn yes_contains() {
+            let l = "GPL-3.0";
+            let r = "gpl";
+
+            let result = is_similar(l, r);
+            let expected = true;
+
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn yes_contained() {
+            let l = "gpl";
+            let r = "GPL-3.0";
+
+            let result = is_similar(l, r);
+            let expected = true;
+
+            assert_eq!(result, expected);
+        }
+
+        #[test]
+        fn no() {
+            let l = "mit";
+            let r = "Apache-2.0";
+
+            let result = is_similar(l, r);
+            let expected = false;
+
+            assert_eq!(result, expected);
+        }
+    }
+
+    mod get_similar_keys {
+        use super::super::get_similar_keys;
+        use crate::LICENSES;
+
+        #[test]
+        fn works() {
+            let result = get_similar_keys("gpl", &LICENSES);
+            let expected = vec![
+                "AGPL-3.0".to_owned(),
+                "GPL-2.0".to_owned(),
+                "GPL-3.0".to_owned(),
+                "LGPL-2.1".to_owned(),
+                "LGPL-3.0".to_owned(),
+            ];
+
+            assert_eq!(result, expected);
+        }
+    }
+
+    mod parse_license {
+        use super::super::parse_license;
+
+        #[test]
+        fn works() {
+            let result = parse_license("MIT").unwrap();
+            assert!(result.starts_with("MIT License Copyright (c) <year> <copyright holders>"));
+        }
+    }
+
+    mod parse_exception {
+        use super::super::parse_exception;
+
+        #[test]
+        fn works() {
+            let result = parse_exception("LLVM-exception").unwrap();
+            assert!(result.starts_with("LLVM Exceptions to the Apache 2.0 License"));
+        }
     }
 }
