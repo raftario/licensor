@@ -36,7 +36,7 @@ $ licensor MIT "Raphaël Thériault" > LICENSE
 Write the Apache 2.0 license with the LLVM exception to `LICENSE`, skipping optionnal parts:
 
 ```sh
-$ licensor "Apache-2.0 WITH LLVM-Exception" --skip-optional > LICENSE
+$ licensor "Apache-2.0 WITH LLVM-exception" --skip-optional > LICENSE
 ```
 
 Print the BSD 3 Clause license without a copyright notice:
