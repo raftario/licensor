@@ -63,7 +63,7 @@ struct SPDXExpr {
 }
 
 fn parse_spdx_expr(expr: String) -> io::Result<SPDXExpr> {
-    let expr: Vec<&str> = expr.split(" ").collect();
+    let expr: Vec<&str> = expr.split(' ').collect();
     let len = expr.len();
     if len == 1 {
         Ok(SPDXExpr {
@@ -98,10 +98,10 @@ fn gz_decode_bytes(src: &[u8]) -> io::Result<String> {
 }
 
 fn clean_newlines(str: &mut String) {
-    while str.starts_with("\n") {
+    while str.starts_with('\n') {
         str.remove(0);
     }
-    while str.ends_with("\n") {
+    while str.ends_with('\n') {
         str.pop();
     }
 }
@@ -141,7 +141,7 @@ fn parse_license(id: &str) -> io::Result<String> {
         stderrln!("Invalid license ID.")?;
 
         let similar = get_similar_keys(&id, &LICENSES);
-        if similar.len() > 0 {
+        if !similar.is_empty() {
             stderrln!("Similar IDs: {}.", similar.join(", "))?;
         }
 
@@ -165,7 +165,7 @@ fn parse_exception(id: &str) -> io::Result<String> {
         stderrln!("Invalid exception ID.")?;
 
         let similar = get_similar_keys(&id, &EXCEPTIONS);
-        if similar.len() > 0 {
+        if !similar.is_empty() {
             stderrln!("Similar IDs: {}.", similar.join(", "))?;
         }
 
@@ -282,13 +282,13 @@ fn main() -> io::Result<()> {
     let args = Opt::from_args();
 
     if args.list_licenses {
-        return list_licenses();
+        list_licenses()
     } else if args.list_exceptions {
-        return list_exceptions();
+        list_exceptions()
     } else if args.spdx_expr.is_some() {
-        return licensor_main(args);
+        licensor_main(args)
     } else {
         stderrln!("Invalid arguments.")?;
-        return unexpected();
+        unexpected()
     }
 }

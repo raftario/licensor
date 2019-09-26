@@ -106,8 +106,8 @@ fn main() {
                 .expect("Can't convert archive file filename to string");
 
             for license in &licenses {
-                if &format!("{}.txt", license.id) == filename
-                    || &format!("deprecated_{}.txt", license.id) == filename
+                if format!("{}.txt", license.id) == filename
+                    || format!("deprecated_{}.txt", license.id) == filename
                 {
                     eprintln!("Parsing license {}", license.id);
 
@@ -132,8 +132,8 @@ fn main() {
             }
 
             for exception in &exceptions {
-                if &format!("{}.txt", exception.id) == filename
-                    || &format!("deprecated_{}.txt", exception.id) == filename
+                if format!("{}.txt", exception.id) == filename
+                    || format!("deprecated_{}.txt", exception.id) == filename
                 {
                     eprintln!("Parsing exception {}", exception.id);
 

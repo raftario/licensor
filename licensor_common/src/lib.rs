@@ -68,7 +68,7 @@ pub fn get_root_path() -> PathBuf {
     let mut root_path = PathBuf::from(cargo_manifest_dir)
         .canonicalize()
         .expect("Invalid Cargo manifest directory");
-    if root_path.pop() != true {
+    if !root_path.pop() {
         panic!("Can't find root path.");
     }
     root_path

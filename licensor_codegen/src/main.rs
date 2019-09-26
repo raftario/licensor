@@ -53,7 +53,7 @@ fn main() {
     licenses_builder
         .build(&mut file)
         .expect("Can't write to codegen.rs.");
-    write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
+    writeln!(&mut file, ";").expect("Can't write to codegen.rs.");
     write!(
         &mut file,
         "pub static LICENSES_INFO: OrderedMap<&'static str, License> = "
@@ -62,7 +62,7 @@ fn main() {
     licenses_info_builder
         .build(&mut file)
         .expect("Can't write to codegen.rs.");
-    write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
+    writeln!(&mut file, ";").expect("Can't write to codegen.rs.");
 
     let mut exceptions_builder = OrderedMap::new();
     let mut exceptions_info_builder = OrderedMap::new();
@@ -85,7 +85,7 @@ fn main() {
     exceptions_builder
         .build(&mut file)
         .expect("Can't write to codegen.rs.");
-    write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
+    writeln!(&mut file, ";").expect("Can't write to codegen.rs.");
     write!(
         &mut file,
         "pub static EXCEPTIONS_INFO: OrderedMap<&'static str, Exception> = "
@@ -94,5 +94,5 @@ fn main() {
     exceptions_info_builder
         .build(&mut file)
         .expect("Can't write to codegen.rs.");
-    write!(&mut file, ";\n").expect("Can't write to codegen.rs.");
+    writeln!(&mut file, ";").expect("Can't write to codegen.rs.");
 }
