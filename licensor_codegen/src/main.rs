@@ -21,6 +21,8 @@ fn main() {
         "// This is an automatically generated file, do not edit it.\n\n"
     )
     .expect("Can't write to codegen.rs.");
+    write!(&mut file, "#![allow(clippy::unreadable_literal)]\n\n")
+        .expect("Can't write to codegen.rs.");
     write!(
         &mut file,
         "use crate::types::{{License, Exception, LicenseReplace}};\nuse phf::OrderedMap;\n\n"

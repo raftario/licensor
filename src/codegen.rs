@@ -1,5 +1,7 @@
 // This is an automatically generated file, do not edit it.
 
+#![allow(clippy::unreadable_literal)]
+
 use crate::types::{Exception, License, LicenseReplace};
 use phf::OrderedMap;
 
