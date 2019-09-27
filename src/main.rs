@@ -40,7 +40,7 @@ struct Opt {
     keep_placeholder: bool,
 
     /// Skips optional license contents
-    #[structopt(short = "O", long = "skip-optional")]
+    #[structopt(short = "o", long = "skip-optional")]
     skip_optional: bool,
 
     /// SPDX license ID or expression
