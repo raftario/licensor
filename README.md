@@ -68,7 +68,7 @@ $ cargo install licensor
 ### [AUR](https://aur.archlinux.org/packages/licensor-git/)
 
 ```sh
-yay -S licensor-git
+$ yay -S licensor-git
 ```
 
 ## Available licenses and exceptions
