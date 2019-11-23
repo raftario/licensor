@@ -46,7 +46,7 @@ $ licensor BSD-3-Clause
 ```
 
 List available licenses
-
+l
 ```sh
 $ licensor --licenses
 ```
