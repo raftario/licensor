@@ -624,7 +624,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "licensor"
-version = "2.0.0"
+version = "2.1.0"
 dependencies = [
  "assert_cmd 0.11.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "calm_io 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -655,7 +655,7 @@ dependencies = [
 
 [[package]]
 name = "licensor_fetch"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "flate2 1.0.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "licensor_common 0.1.0",

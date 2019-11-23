@@ -1,6 +1,6 @@
 [package]
 name = "licensor_fetch"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Raphaël Thériault <raphael_theriault@outlook.com>"]
 edition = "2018"
 
