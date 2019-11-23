@@ -10,10 +10,10 @@ use std::path::{Component, Path, PathBuf};
 use std::{fs, io, process};
 use tar::Archive;
 
-static LLD_ARCHIVE_URL: &str = "https://github.com/spdx/license-list-data/archive/v3.6.tar.gz";
+static LLD_ARCHIVE_URL: &str = "https://github.com/spdx/license-list-data/archive/v3.7.tar.gz";
 static LLD_ARCHIVE_HASH: &[u8] = &[
-    145, 22, 173, 180, 54, 59, 55, 113, 254, 131, 175, 24, 225, 159, 97, 56, 149, 179, 117, 193,
-    32, 251, 216, 100, 23, 102, 251, 47, 57, 96, 160, 121,
+    0xd6, 0xf5, 0x8a, 0x37, 0x00, 0x15, 0xe5, 0xa4, 0x7d, 0xc6, 0xd7, 0xf9, 0x7c, 0x5e, 0x4a, 0x92,
+    0xc1, 0x4b, 0x30, 0xf4, 0x6a, 0xca, 0x93, 0x43, 0xbb, 0xb6, 0xc5, 0xbd, 0xbd, 0x40, 0x44, 0x52,
 ];
 
 fn hash_file<P: AsRef<Path> + Debug>(src: P) -> Vec<u8> {
@@ -47,7 +47,7 @@ fn encode_file_gz<P: AsRef<Path> + Debug, W: Write>(src: P, dest: &mut W, level:
 
 fn get_lld_archive_path() -> PathBuf {
     let mut lld_archive_path = licensor_common::get_resources_path();
-    lld_archive_path.push("license-list-data-3.6.tar.gz");
+    lld_archive_path.push("license-list-data-3.7.tar.gz");
     lld_archive_path
 }
 
