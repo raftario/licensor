@@ -4,7 +4,7 @@
 
 write licenses to stdout
 
-[![GitHub Actions](https://github.com/raftario/licensor/workflows/Build/badge.svg)](https://github.com/raftario/licensor/actions?workflowID=Build)
+[![GitHub Actions](https://img.shields.io/github/workflow/status/raftario/licensor/Build)](https://github.com/raftario/licensor/actions?workflowID=Build) [![crates.io](https://img.shields.io/crates/v/licensor?color=orange)](https://crates.io/crates/licensor)
 
 ## About
 
@@ -58,16 +58,10 @@ You are welcome to ditribute this software on other platforms, don't hesitate to
 
 ### [Releases](https://github.com/raftario/licensor/releases/latest)
 
-### [Crates.io](https://crates.io/crates/licensor)
+### [crates.io](https://crates.io/crates/licensor)
 
 ```sh
 $ cargo install licensor
-```
-
-### [AUR](https://aur.archlinux.org/packages/licensor-git/)
-
-```sh
-$ yay -S licensor-git
 ```
 
 ## Available licenses and exceptions
