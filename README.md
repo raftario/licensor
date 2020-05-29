@@ -15,7 +15,7 @@ Write a license to standard output given its SPDX ID. A name for the copyright h
 * Simple
 * Licenses are taken directly from SPDX, no slightly edited templates
 * Single binary, licenses are included into it at compile time
-* `WHERE` exception expressions support
+* `WITH` exception expressions support
 * Ability to skip the copyright notice, which is allowed by the Berne convention
 * Adding new licenses just requires editing a JSON file
 
