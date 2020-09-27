@@ -7,5 +7,5 @@ edition = "2018"
 [dependencies]
 serde_json = "1.0.41"
 [dependencies.serde]
-version = "1.0.102"
+version = "1.0.116"
 features = ["derive"]
