@@ -7,6 +7,6 @@ edition = "2018"
 [dependencies]
 flate2 = "1.0.13"
 licensor_common = { path = "../licensor_common" }
-reqwest = "0.9.22"
+reqwest = "0.10.10"
 sha3 = "0.8.2"
 tar = "0.4.26"
