@@ -86,7 +86,7 @@ fn main() {
 
     let mut licenses_path = resources_path.clone();
     licenses_path.push("licenses");
-    let mut exceptions_path = resources_path.clone();
+    let mut exceptions_path = resources_path;
     exceptions_path.push("exceptions");
 
     let mut lld_archive = Archive::new(decoded_archive.as_slice());
