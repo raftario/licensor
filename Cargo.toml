@@ -25,7 +25,7 @@ members = [
 
 [dependencies]
 calm_io = "0.1.1"
-chrono = "0.4.9"
+chrono = "0.4.11"
 phf = "0.7.24"
 structopt = "0.3.5"
 textwrap = "0.11.0"
