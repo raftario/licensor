@@ -69,7 +69,7 @@ fn license_and_name() {
         .assert()
         .success()
         .stdout(predicates::str::starts_with(
-            "MIT License Copyright (c) 2021 Raphaël Thériault\n",
+            "MIT License Copyright (c) 2022 Raphaël Thériault\n",
         ))
         .stderr(predicates::str::is_empty());
 }
