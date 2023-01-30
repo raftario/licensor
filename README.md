@@ -33,7 +33,7 @@ Write the MIT license with a copyright notice to `LICENSE`:
 $ licensor MIT "Raphaël Thériault" > LICENSE
 ```
 
-Write the Apache 2.0 license with the LLVM exception to `LICENSE`, skipping optionnal parts:
+Write the Apache 2.0 license with the LLVM exception to `LICENSE`, skipping optional parts:
 
 ```sh
 $ licensor "Apache-2.0 WITH LLVM-exception" --skip-optional > LICENSE
@@ -52,13 +52,21 @@ $ licensor --licenses
 
 ## Installation
 
-There are a couple installation option available.
+There are a few installation option available.
 
-You are welcome to ditribute this software on other platforms, don't hesitate to open a PR to update this section if you do so!
+You are welcome to distribute this software on other platforms, don't hesitate to open a PR to update this section if you do so!
 
 ### [Releases](https://github.com/raftario/licensor/releases/latest)
 
-### [crates.io](https://crates.io/crates/licensor)
+Pre-compiled binaries of `licensor` can be downloaded from the release page.
+
+### [Homebrew](https://formulae.brew.sh/formula/licensor)
+
+```sh
+$ brew install licensor
+```
+
+### [Crates.io](https://crates.io/crates/licensor)
 
 ```sh
 $ cargo install licensor
